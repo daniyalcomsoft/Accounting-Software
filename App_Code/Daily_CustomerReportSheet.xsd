@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Daily_CustomerReportSheet" targetNamespace="http://tempuri.org/Daily_CustomerReportSheet.xsd" xmlns:mstns="http://tempuri.org/Daily_CustomerReportSheet.xsd" xmlns="http://tempuri.org/Daily_CustomerReportSheet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Daily_CustomerReportSheet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="Daily_CustomerReportSheet" msprop:Generator_DataSetName="Daily_CustomerReportSheet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Daily_CustomerReportSheet" msprop:Generator_UserTableName="Daily_CustomerReportSheet" msprop:Generator_RowDeletedName="Daily_CustomerReportSheetRowDeleted" msprop:Generator_TableClassName="Daily_CustomerReportSheetDataTable" msprop:Generator_RowChangedName="Daily_CustomerReportSheetRowChanged" msprop:Generator_RowClassName="Daily_CustomerReportSheetRow" msprop:Generator_RowChangingName="Daily_CustomerReportSheetRowChanging" msprop:Generator_RowEvArgName="Daily_CustomerReportSheetRowChangeEvent" msprop:Generator_RowEvHandlerName="Daily_CustomerReportSheetRowChangeEventHandler" msprop:Generator_TablePropName="_Daily_CustomerReportSheet" msprop:Generator_TableVarName="tableDaily_CustomerReportSheet" msprop:Generator_RowDeletingName="Daily_CustomerReportSheetRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CustomerCode" msprop:Generator_UserColumnName="CustomerCode" msprop:Generator_ColumnPropNameInRow="CustomerCode" msprop:Generator_ColumnVarNameInTable="columnCustomerCode" msprop:Generator_ColumnPropNameInTable="CustomerCodeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Customer" msprop:Generator_UserColumnName="Customer" msprop:Generator_ColumnPropNameInRow="Customer" msprop:Generator_ColumnVarNameInTable="columnCustomer" msprop:Generator_ColumnPropNameInTable="CustomerColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PreviousBalance" msprop:Generator_UserColumnName="PreviousBalance" msprop:Generator_ColumnPropNameInRow="PreviousBalance" msprop:Generator_ColumnVarNameInTable="columnPreviousBalance" msprop:Generator_ColumnPropNameInTable="PreviousBalanceColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

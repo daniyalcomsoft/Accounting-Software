@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Daily_Report" targetNamespace="http://tempuri.org/Daily_Report.xsd" xmlns:mstns="http://tempuri.org/Daily_Report.xsd" xmlns="http://tempuri.org/Daily_Report.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Daily_Report" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="Daily_Report" msprop:Generator_DataSetName="Daily_Report">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Daily_Report" msprop:Generator_UserTableName="Daily_Report" msprop:Generator_RowDeletedName="Daily_ReportRowDeleted" msprop:Generator_RowChangedName="Daily_ReportRowChanged" msprop:Generator_RowClassName="Daily_ReportRow" msprop:Generator_RowChangingName="Daily_ReportRowChanging" msprop:Generator_RowEvArgName="Daily_ReportRowChangeEvent" msprop:Generator_RowEvHandlerName="Daily_ReportRowChangeEventHandler" msprop:Generator_TableClassName="Daily_ReportDataTable" msprop:Generator_TableVarName="tableDaily_Report" msprop:Generator_RowDeletingName="Daily_ReportRowDeleting" msprop:Generator_TablePropName="_Daily_Report">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Title" msprop:Generator_UserColumnName="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Opening" msprop:Generator_UserColumnName="Opening" msprop:Generator_ColumnVarNameInTable="columnOpening" msprop:Generator_ColumnPropNameInRow="Opening" msprop:Generator_ColumnPropNameInTable="OpeningColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Deposits" msprop:Generator_UserColumnName="Deposits" msprop:Generator_ColumnVarNameInTable="columnDeposits" msprop:Generator_ColumnPropNameInRow="Deposits" msprop:Generator_ColumnPropNameInTable="DepositsColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Drawings" msprop:Generator_UserColumnName="Drawings" msprop:Generator_ColumnVarNameInTable="columnDrawings" msprop:Generator_ColumnPropNameInRow="Drawings" msprop:Generator_ColumnPropNameInTable="DrawingsColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Closing" msprop:Generator_UserColumnName="Closing" msprop:Generator_ColumnVarNameInTable="columnClosing" msprop:Generator_ColumnPropNameInRow="Closing" msprop:Generator_ColumnPropNameInTable="ClosingColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="CustomerCode" msprop:Generator_UserColumnName="CustomerCode" msprop:Generator_ColumnVarNameInTable="columnCustomerCode" msprop:Generator_ColumnPropNameInRow="CustomerCode" msprop:Generator_ColumnPropNameInTable="CustomerCodeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Customer" msprop:Generator_UserColumnName="Customer" msprop:Generator_ColumnVarNameInTable="columnCustomer" msprop:Generator_ColumnPropNameInRow="Customer" msprop:Generator_ColumnPropNameInTable="CustomerColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PreviousBalance" msprop:Generator_UserColumnName="PreviousBalance" msprop:Generator_ColumnVarNameInTable="columnPreviousBalance" msprop:Generator_ColumnPropNameInRow="PreviousBalance" msprop:Generator_ColumnPropNameInTable="PreviousBalanceColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="OnClear" msprop:Generator_UserColumnName="OnClear" msprop:Generator_ColumnPropNameInRow="OnClear" msprop:Generator_ColumnVarNameInTable="columnOnClear" msprop:Generator_ColumnPropNameInTable="OnClearColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="NetBalance" msprop:Generator_UserColumnName="NetBalance" msprop:Generator_ColumnPropNameInRow="NetBalance" msprop:Generator_ColumnVarNameInTable="columnNetBalance" msprop:Generator_ColumnPropNameInTable="NetBalanceColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Billing" msprop:Generator_UserColumnName="Billing" msprop:Generator_ColumnVarNameInTable="columnBilling" msprop:Generator_ColumnPropNameInRow="Billing" msprop:Generator_ColumnPropNameInTable="BillingColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Payment" msprop:Generator_UserColumnName="Payment" msprop:Generator_ColumnVarNameInTable="columnPayment" msprop:Generator_ColumnPropNameInRow="Payment" msprop:Generator_ColumnPropNameInTable="PaymentColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="LatestBalance" msprop:Generator_UserColumnName="LatestBalance" msprop:Generator_ColumnVarNameInTable="columnLatestBalance" msprop:Generator_ColumnPropNameInRow="LatestBalance" msprop:Generator_ColumnPropNameInTable="LatestBalanceColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Advance" msprop:Generator_UserColumnName="Advance" msprop:Generator_ColumnPropNameInRow="Advance" msprop:Generator_ColumnVarNameInTable="columnAdvance" msprop:Generator_ColumnPropNameInTable="AdvanceColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

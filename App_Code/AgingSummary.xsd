@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="AgingSummary" targetNamespace="http://tempuri.org/AgingSummary.xsd" xmlns:mstns="http://tempuri.org/AgingSummary.xsd" xmlns="http://tempuri.org/AgingSummary.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="AgingSummary" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="AgingSummary" msprop:Generator_DataSetName="AgingSummary">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="AgingSummary_tbl" msprop:Generator_UserTableName="AgingSummary_tbl" msprop:Generator_RowDeletedName="AgingSummary_tblRowDeleted" msprop:Generator_RowChangedName="AgingSummary_tblRowChanged" msprop:Generator_RowClassName="AgingSummary_tblRow" msprop:Generator_RowChangingName="AgingSummary_tblRowChanging" msprop:Generator_RowEvArgName="AgingSummary_tblRowChangeEvent" msprop:Generator_RowEvHandlerName="AgingSummary_tblRowChangeEventHandler" msprop:Generator_TableClassName="AgingSummary_tblDataTable" msprop:Generator_TableVarName="tableAgingSummary_tbl" msprop:Generator_RowDeletingName="AgingSummary_tblRowDeleting" msprop:Generator_TablePropName="AgingSummary_tbl">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="InvoiceID" msprop:Generator_UserColumnName="InvoiceID" msprop:Generator_ColumnVarNameInTable="columnInvoiceID" msprop:Generator_ColumnPropNameInRow="InvoiceID" msprop:Generator_ColumnPropNameInTable="InvoiceIDColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="DisplayName" msprop:Generator_UserColumnName="DisplayName" msprop:Generator_ColumnVarNameInTable="columnDisplayName" msprop:Generator_ColumnPropNameInRow="DisplayName" msprop:Generator_ColumnPropNameInTable="DisplayNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Type" msprop:Generator_UserColumnName="Type" msprop:Generator_ColumnVarNameInTable="columnType" msprop:Generator_ColumnPropNameInRow="Type" msprop:Generator_ColumnPropNameInTable="TypeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="DiffDate" msprop:Generator_UserColumnName="DiffDate" msprop:Generator_ColumnVarNameInTable="columnDiffDate" msprop:Generator_ColumnPropNameInRow="DiffDate" msprop:Generator_ColumnPropNameInTable="DiffDateColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CompanyName" msprop:Generator_UserColumnName="CompanyName" msprop:Generator_ColumnVarNameInTable="columnCompanyName" msprop:Generator_ColumnPropNameInRow="CompanyName" msprop:Generator_ColumnPropNameInTable="CompanyNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PlusAmount" msprop:Generator_UserColumnName="PlusAmount" msprop:Generator_ColumnPropNameInRow="PlusAmount" msprop:Generator_ColumnVarNameInTable="columnPlusAmount" msprop:Generator_ColumnPropNameInTable="PlusAmountColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="NameAmount" msprop:Generator_UserColumnName="NameAmount" msprop:Generator_ColumnPropNameInRow="NameAmount" msprop:Generator_ColumnVarNameInTable="columnNameAmount" msprop:Generator_ColumnPropNameInTable="NameAmountColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Date" msprop:Generator_UserColumnName="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ReportDate" msprop:Generator_UserColumnName="ReportDate" msprop:Generator_ColumnVarNameInTable="columnReportDate" msprop:Generator_ColumnPropNameInRow="ReportDate" msprop:Generator_ColumnPropNameInTable="ReportDateColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Amount" msprop:Generator_UserColumnName="Amount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInTable="AmountColumn" type="xs:short" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

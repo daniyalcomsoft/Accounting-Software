@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="COGSreportsummary" targetNamespace="http://tempuri.org/COGSReportSummary.xsd" xmlns:mstns="http://tempuri.org/COGSReportSummary.xsd" xmlns="http://tempuri.org/COGSReportSummary.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="COGSreportsummary" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="COGSreportsummary" msprop:Generator_DataSetName="_COGSreportsummary">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="COGSreportsummary" msprop:Generator_UserTableName="COGSreportsummary" msprop:Generator_RowDeletedName="COGSreportsummaryRowDeleted" msprop:Generator_RowChangedName="COGSreportsummaryRowChanged" msprop:Generator_RowClassName="COGSreportsummaryRow" msprop:Generator_RowChangingName="COGSreportsummaryRowChanging" msprop:Generator_RowEvArgName="COGSreportsummaryRowChangeEvent" msprop:Generator_RowEvHandlerName="COGSreportsummaryRowChangeEventHandler" msprop:Generator_TableClassName="COGSreportsummaryDataTable" msprop:Generator_TableVarName="tableCOGSreportsummary" msprop:Generator_RowDeletingName="COGSreportsummaryRowDeleting" msprop:Generator_TablePropName="COGSreportsummary">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FishSize" msprop:Generator_UserColumnName="FishSize" msprop:Generator_ColumnVarNameInTable="columnFishSize" msprop:Generator_ColumnPropNameInRow="FishSize" msprop:Generator_ColumnPropNameInTable="FishSizeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="FishName" msprop:Generator_UserColumnName="FishName" msprop:Generator_ColumnPropNameInRow="FishName" msprop:Generator_ColumnVarNameInTable="columnFishName" msprop:Generator_ColumnPropNameInTable="FishNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="FishGrade" msprop:Generator_UserColumnName="FishGrade" msprop:Generator_ColumnVarNameInTable="columnFishGrade" msprop:Generator_ColumnPropNameInRow="FishGrade" msprop:Generator_ColumnPropNameInTable="FishGradeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="To" msprop:Generator_UserColumnName="To" msprop:Generator_ColumnVarNameInTable="columnTo" msprop:Generator_ColumnPropNameInRow="To" msprop:Generator_ColumnPropNameInTable="ToColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="From" msprop:Generator_UserColumnName="From" msprop:Generator_ColumnVarNameInTable="columnFrom" msprop:Generator_ColumnPropNameInRow="From" msprop:Generator_ColumnPropNameInTable="FromColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ReportName" msprop:Generator_UserColumnName="ReportName" msprop:Generator_ColumnPropNameInRow="ReportName" msprop:Generator_ColumnVarNameInTable="columnReportName" msprop:Generator_ColumnPropNameInTable="ReportNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CostCenterName" msprop:Generator_UserColumnName="CostCenterName" msprop:Generator_ColumnVarNameInTable="columnCostCenterName" msprop:Generator_ColumnPropNameInRow="CostCenterName" msprop:Generator_ColumnPropNameInTable="CostCenterNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CompanyName" msprop:Generator_UserColumnName="CompanyName" msprop:Generator_ColumnVarNameInTable="columnCompanyName" msprop:Generator_ColumnPropNameInRow="CompanyName" msprop:Generator_ColumnPropNameInTable="CompanyNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="FromReport" msprop:Generator_UserColumnName="FromReport" msprop:Generator_ColumnVarNameInTable="columnFromReport" msprop:Generator_ColumnPropNameInRow="FromReport" msprop:Generator_ColumnPropNameInTable="FromReportColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ToReport" msprop:Generator_UserColumnName="ToReport" msprop:Generator_ColumnVarNameInTable="columnToReport" msprop:Generator_ColumnPropNameInRow="ToReport" msprop:Generator_ColumnPropNameInTable="ToReportColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="COGSRate" msprop:Generator_UserColumnName="COGSRate" msprop:Generator_ColumnPropNameInRow="COGSRate" msprop:Generator_ColumnVarNameInTable="columnCOGSRate" msprop:Generator_ColumnPropNameInTable="COGSRateColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SortOrder" msprop:Generator_UserColumnName="SortOrder" msprop:Generator_ColumnPropNameInRow="SortOrder" msprop:Generator_ColumnVarNameInTable="columnSortOrder" msprop:Generator_ColumnPropNameInTable="SortOrderColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="CostCenterID" msprop:Generator_UserColumnName="CostCenterID" msprop:Generator_ColumnVarNameInTable="columnCostCenterID" msprop:Generator_ColumnPropNameInRow="CostCenterID" msprop:Generator_ColumnPropNameInTable="CostCenterIDColumn" type="xs:unsignedInt" minOccurs="0" />
+              <xs:element name="InventoryName" msprop:Generator_UserColumnName="InventoryName" msprop:Generator_ColumnPropNameInRow="InventoryName" msprop:Generator_ColumnVarNameInTable="columnInventoryName" msprop:Generator_ColumnPropNameInTable="InventoryNameColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

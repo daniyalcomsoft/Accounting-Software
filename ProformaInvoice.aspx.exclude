@@ -1,0 +1,3048 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="Main.master" AutoEventWireup="true" CodeFile="ProformaInvoice.aspx.cs" Inherits="ProformaInvoice" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<script src="Script/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="Script/jquery-ui-1.8.16.custom.min.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        //        $("input[id$='btnaddlines2']").click(function() {
+        //        });
+        setTabs();
+        MyDate();
+        vale();
+        GrossTotalDeduction();
+        vale2();
+        GrossTotalDeduction2();
+        vale3();
+        GrossTotalDeduction3();
+        vale4();
+        GrossTotalDeduction4();
+        vale5();
+        GrossTotalDeduction5();
+        vale6();
+        GrossTotalDeduction6();
+        vale7();
+        GrossTotalDeduction7();
+        vale8();
+        GrossTotalDeduction8();
+        vale9();
+        GrossTotalDeduction9();
+        vale10();
+        GrossTotalDeduction10();
+        vale11();
+        GrossTotalDeduction11();
+        vale12();
+        GrossTotalDeduction12();
+        vale13();
+        GrossTotalDeduction13();
+        vale14();
+        GrossTotalDeduction14();
+        vale15();
+        GrossTotalDeduction15();
+        ChangeDateEvent();
+        TxtBlur();
+        TotalGridAmount();
+        calculateSum();
+    });
+
+    function TxtBlur() {
+        $(".txt").each(function() {
+            $(this).blur(function() {
+                calculateSum();
+            });
+        });
+    }
+
+    function calculateSum() {
+        var sum = 0;
+        $(".sumition").each(function() {
+            if (!isNaN(this.value) && this.value.length != 0) {
+                sum += parseFloat(this.value);
+            }
+        });
+
+        $("[id $= txttotal2]").val(sum.toFixed(2)).change();
+    }
+
+    function TotalGridAmount() {
+        total = 0;
+        GrandInvoiceTotal = 0;
+        GrandTotal = 0;
+
+        $("[id $= txttotal2],[id $= txtDiscount]").change(function() {
+            GrandTotals();
+        });
+    }
+
+    function GrandTotals() {
+        var tot1 = $("[id $= txttotal2]").val();
+
+        var discount = $("[id $= txtDiscount]").val();
+        if (discount == "") {
+            discount = 0;
+        }
+        //   var dis = discount.toFixed(3);
+        GrandInvoiceTotal = parseFloat(tot1 - discount);
+        $("[id $= txtTot]").val(GrandInvoiceTotal.toFixed(2));
+    }
+
+
+
+    function setTabs() {
+        var tid = $('2').val();
+        if (tid == 1) {
+            $("#tabs").tabs({
+                enabled: [1, 2],
+                selected: 0
+            });
+        }
+        else {
+            $("#tabs").tabs();
+            setTabHref();
+        }
+    }
+    function setTabHref() {
+        var a = $("[id$=hfSelectedTAB]").val();
+        if (a == 1) {
+            $('#Mytab a[href="#tabs-1"]').click();
+        } else if (a == 2) {
+            $('#Mytab a[href="#tabs-2"]').click();
+        }
+        else if (a == 3) {
+            $('#Mytab a[href="#tabs-3"]').click();
+        }
+        else if (a == 4) {
+            $('#Mytab a[href="#tabs-4"]').click();
+        }
+        else if (a == 5) {
+            $('#Mytab a[href="#tabs-5"]').click();
+        }
+        else if (a == 6) {
+            $('#Mytab a[href="#tabs-6"]').click();
+        }
+        else if (a == 7) {
+            $('#Mytab a[href="#tabs-7"]').click();
+        }
+        else if (a == 8) {
+            $('#Mytab a[href="#tabs-8"]').click();
+        }
+        else if (a == 9) {
+            $('#Mytab a[href="#tabs-9"]').click();
+        }
+        else if (a == 10) {
+            $('#Mytab a[href="#tabs-10"]').click();
+        }
+        else if (a == 11) {
+            $('#Mytab a[href="#tabs-11"]').click();
+        }
+        else if (a == 12) {
+            $('#Mytab a[href="#tabs-12"]').click();
+        }
+        else if (a == 13) {
+            $('#Mytab a[href="#tabs-13"]').click();
+        }
+        else if (a == 14) {
+            $('#Mytab a[href="#tabs-14"]').click();
+        }
+        else if (a == 15) {
+            $('#Mytab a[href="#tabs-15"]').click();
+        }
+    }
+
+
+    function MyDate() {
+        dateMin = $("[id $= hdnMinDate]").val();
+        dateMax = $("[id $= hdnMaxDate]").val();
+        $(".DateTimePicker").datepicker({ minDate: new Date(dateMin), maxDate: new Date(dateMax) });
+    }
+
+
+    function ChangeDateEvent() {
+        $("[id $= txtInvoiceDate]").change(function() {
+            dateMin = $("[id $= hdnMinDate]").val();
+            dateMax = $("[id $= hdnMaxDate]").val();
+            var invoiceDate = $("[id$=txtInvoiceDate]").val();
+            if (Date.parse(invoiceDate) < Date.parse(dateMin) || Date.parse(invoiceDate) > Date.parse(dateMax)) {
+                $("[id$=txtInvoiceDate]").val('');
+            }
+        });
+    }
+
+    function vale() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity = $(this).val();
+            var rate = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice = parseFloat(quantity * rate);
+            var Fixed = TotalPrice.toFixed(2);
+            var Total = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed);
+            GrossTotalDeduction();
+        });
+
+
+
+
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units = $(this).val();
+            if (DeductionType == "Amount") {
+
+                var Total = $(this).parent().siblings().find("[id $= txtAmount]").val(units);
+            }
+            else {
+                var quantity = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice = parseFloat(quantity * units);
+                var Fixed = TotalPrice.toFixed(2);
+                var Total = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed);
+            }
+            GrossTotalDeduction();
+
+
+        });
+    }
+    var gross;
+
+
+    function GrossTotalDeduction() {
+        grosstotal = 0;
+        $("[id $= GV_InvoiceDetail] [id $= txtAmount]").each(function(index, item) {
+
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal = grosstotal + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal]").val(grosstotal.toFixed(2)).change();
+    }
+    var grossdeduction;
+
+
+
+
+
+
+    function vale2() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity2 = $(this).val();
+            var rate2 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice2 = parseFloat(quantity2 * rate2);
+            var Fixed2 = TotalPrice2.toFixed(2);
+            var Total2 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed2);
+            GrossTotalDeduction2();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType2 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units2 = $(this).val();
+            if (DeductionType2 == "Amount") {
+
+                var Total2 = $(this).parent().siblings().find("[id $= txtAmount]").val(units2);
+            }
+            else {
+                var quantity2 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice2 = parseFloat(quantity2 * units2);
+                var Fixed2 = TotalPrice2.toFixed(2);
+                var Total2 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed2);
+            }
+            GrossTotalDeduction2();
+        });
+    }
+    var gross2;
+
+    function GrossTotalDeduction2() {
+        grosstotal2 = 0;
+        $("[id $= GV_InvoiceDetail1] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal2 = grosstotal2 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal2]").val(grosstotal2.toFixed(2)).change();
+    }
+    var grossdeduction2;
+
+    function vale3() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity3 = $(this).val();
+            var rate3 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice3 = parseFloat(quantity3 * rate3);
+            var Fixed3 = TotalPrice3.toFixed(2);
+            var Total3 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed3);
+            GrossTotalDeduction3();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType3 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units3 = $(this).val();
+            if (DeductionType3 == "Amount") {
+
+                var Total3 = $(this).parent().siblings().find("[id $= txtAmount]").val(units3);
+            }
+            else {
+                var quantity3 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice3 = parseFloat(quantity3 * units3);
+                var Fixed3 = TotalPrice3.toFixed(2);
+                var Total3 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed3);
+            }
+            GrossTotalDeduction3();
+        });
+    }
+    var gross3;
+
+    function GrossTotalDeduction3() {
+        grosstotal3 = 0;
+        $("[id $= GV_InvoiceDetail3] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal3 = grosstotal3 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal3]").val(grosstotal3.toFixed(2)).change();
+    }
+    var grossdeduction3;
+
+    function vale4() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity4 = $(this).val();
+            var rate4 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice4 = parseFloat(quantity4 * rate4);
+            var Fixed4 = TotalPrice4.toFixed(2);
+            var Total4 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed4);
+            GrossTotalDeduction4();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType4 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units4 = $(this).val();
+            if (DeductionType4 == "Amount") {
+
+                var Total4 = $(this).parent().siblings().find("[id $= txtAmount]").val(units4);
+            }
+            else {
+                var quantity4 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice4 = parseFloat(quantity4 * units4);
+                var Fixed4 = TotalPrice4.toFixed(2);
+                var Total4 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed4);
+            }
+            GrossTotalDeduction4();
+        });
+    }
+    var gross4;
+
+    function GrossTotalDeduction4() {
+        grosstotal4 = 0;
+        $("[id $= GV_InvoiceDetail4] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal4 = grosstotal4 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal4]").val(grosstotal4.toFixed(2)).change();
+    }
+    var grossdeduction4;
+
+    function vale5() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity5 = $(this).val();
+            var rate5 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice5 = parseFloat(quantity5 * rate5);
+            var Fixed5 = TotalPrice5.toFixed(2);
+            var Total5 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed5);
+            GrossTotalDeduction5();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType5 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units5 = $(this).val();
+            if (DeductionType5 == "Amount") {
+
+                var Total5 = $(this).parent().siblings().find("[id $= txtAmount]").val(units5);
+            }
+            else {
+                var quantity5 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice5 = parseFloat(quantity5 * units5);
+                var Fixed5 = TotalPrice5.toFixed(2);
+                var Total5 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed5);
+            }
+            GrossTotalDeduction5();
+        });
+    }
+    var gross5;
+
+    function GrossTotalDeduction5() {
+        grosstotal5 = 0;
+        $("[id $= GV_InvoiceDetail5] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal5 = grosstotal5 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal5]").val(grosstotal5.toFixed(2)).change();
+    }
+    var grossdeduction5;
+
+    function vale6() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity6 = $(this).val();
+            var rate6 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice6 = parseFloat(quantity6 * rate6);
+            var Fixed6 = TotalPrice6.toFixed(2);
+            var Total6 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed6);
+            GrossTotalDeduction6();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType6 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units6 = $(this).val();
+            if (DeductionType6 == "Amount") {
+
+                var Total6 = $(this).parent().siblings().find("[id $= txtAmount]").val(units6);
+            }
+            else {
+                var quantity6 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice6 = parseFloat(quantity6 * units6);
+                var Fixed6 = TotalPrice6.toFixed(2);
+                var Total6 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed6);
+            }
+            GrossTotalDeduction6();
+        });
+    }
+    var gross6;
+
+    function GrossTotalDeduction6() {
+        grosstotal6 = 0;
+        $("[id $= GV_InvoiceDetail6] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal6 = grosstotal6 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal6]").val(grosstotal6.toFixed(2)).change();
+    }
+    var grossdeduction6;
+
+    function vale7() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity7 = $(this).val();
+            var rate7 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice7 = parseFloat(quantity7 * rate7);
+            var Fixed7 = TotalPrice7.toFixed(2);
+            var Total7 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed7);
+            GrossTotalDeduction7();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType7 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units7 = $(this).val();
+            if (DeductionType7 == "Amount") {
+
+                var Total7 = $(this).parent().siblings().find("[id $= txtAmount]").val(units7);
+            }
+            else {
+                var quantity7 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice7 = parseFloat(quantity7 * units7);
+                var Fixed7 = TotalPrice7.toFixed(2);
+                var Total7 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed7);
+            }
+            GrossTotalDeduction7();
+        });
+    }
+    var gross7;
+
+    function GrossTotalDeduction7() {
+        grosstotal7 = 0;
+        $("[id $= GV_InvoiceDetail7] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal7 = grosstotal7 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal7]").val(grosstotal7.toFixed(2)).change();
+    }
+    var grossdeduction7;
+
+    function vale8() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity8 = $(this).val();
+            var rate8 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice8 = parseFloat(quantity8 * rate8);
+            var Fixed8 = TotalPrice8.toFixed(2);
+            var Total8 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed8);
+            GrossTotalDeduction8();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType8 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units8 = $(this).val();
+            if (DeductionType8 == "Amount") {
+
+                var Total8 = $(this).parent().siblings().find("[id $= txtAmount]").val(units8);
+            }
+            else {
+                var quantity8 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice8 = parseFloat(quantity8 * units8);
+                var Fixed8 = TotalPrice8.toFixed(2);
+                var Total8 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed8);
+            }
+            GrossTotalDeduction8();
+        });
+    }
+    var gross8;
+
+    function GrossTotalDeduction8() {
+        grosstotal8 = 0;
+        $("[id $= GV_InvoiceDetail8] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal8 = grosstotal8 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal8]").val(grosstotal8.toFixed(2)).change();
+    }
+    var grossdeduction8;
+
+    function vale9() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity9 = $(this).val();
+            var rate9 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice9 = parseFloat(quantity9 * rate9);
+            var Fixed9 = TotalPrice9.toFixed(2);
+            var Total9 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed9);
+            GrossTotalDeduction9();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType9 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units9 = $(this).val();
+            if (DeductionType9 == "Amount") {
+
+                var Total9 = $(this).parent().siblings().find("[id $= txtAmount]").val(units9);
+            }
+            else {
+                var quantity9 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice9 = parseFloat(quantity9 * units9);
+                var Fixed9 = TotalPrice9.toFixed(2);
+                var Total9 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed9);
+            }
+            GrossTotalDeduction9();
+        });
+    }
+    var gross9;
+
+    function GrossTotalDeduction9() {
+        grosstotal9 = 0;
+        $("[id $= GV_InvoiceDetail9] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal9 = grosstotal9 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal9]").val(grosstotal9.toFixed(2)).change();
+    }
+    var grossdeduction9;
+
+    function vale10() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity10 = $(this).val();
+            var rate10 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice10 = parseFloat(quantity10 * rate10);
+            var Fixed10 = TotalPrice10.toFixed(2);
+            var Total10 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed10);
+            GrossTotalDeduction10();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType10 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units10 = $(this).val();
+            if (DeductionType10 == "Amount") {
+
+                var Total10 = $(this).parent().siblings().find("[id $= txtAmount]").val(units10);
+            }
+            else {
+                var quantity10 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice10 = parseFloat(quantity10 * units10);
+                var Fixed10 = TotalPrice10.toFixed(2);
+                var Total10 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed10);
+            }
+            GrossTotalDeduction10();
+        });
+    }
+    var gross10;
+
+    function GrossTotalDeduction10() {
+        grosstotal10 = 0;
+        $("[id $= GV_InvoiceDetail10] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal10 = grosstotal10 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal10]").val(grosstotal10.toFixed(2)).change();
+    }
+    var grossdeduction10;
+
+
+    function vale11() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity11 = $(this).val();
+            var rate11 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice11 = parseFloat(quantity11 * rate11);
+            var Fixed11 = TotalPrice11.toFixed(2);
+            var Total11 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed11);
+            GrossTotalDeduction11();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType11 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units11 = $(this).val();
+            if (DeductionType11 == "Amount") {
+
+                var Total11 = $(this).parent().siblings().find("[id $= txtAmount]").val(units11);
+            }
+            else {
+                var quantity11 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice11 = parseFloat(quantity11 * units11);
+                var Fixed11 = TotalPrice11.toFixed(2);
+                var Total11 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed11);
+            }
+            GrossTotalDeduction11();
+        });
+    }
+    var gross11;
+
+    function GrossTotalDeduction11() {
+        grosstotal11 = 0;
+        $("[id $= GV_InvoiceDetail11] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal11 = grosstotal11 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal11]").val(grosstotal11.toFixed(2)).change();
+    }
+    var grossdeduction11;
+
+    function vale12() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity12 = $(this).val();
+            var rate12 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice12 = parseFloat(quantity12 * rate12);
+            var Fixed12 = TotalPrice12.toFixed(2);
+            var Total12 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed12);
+            GrossTotalDeduction12();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType12 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units12 = $(this).val();
+            if (DeductionType12 == "Amount") {
+
+                var Total12 = $(this).parent().siblings().find("[id $= txtAmount]").val(units12);
+            }
+            else {
+                var quantity12 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice12 = parseFloat(quantity12 * units12);
+                var Fixed12 = TotalPrice12.toFixed(2);
+                var Total12 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed12);
+            }
+            GrossTotalDeduction12();
+        });
+    }
+    var gross2;
+
+    function GrossTotalDeduction12() {
+        grosstotal12 = 0;
+        $("[id $= GV_InvoiceDetail12] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal12 = grosstotal12 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal12]").val(grosstotal12.toFixed(2)).change();
+    }
+    var grossdeduction12;
+    function vale13() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity13 = $(this).val();
+            var rate13 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice13 = parseFloat(quantity13 * rate13);
+            var Fixed13 = TotalPrice13.toFixed(2);
+            var Total13 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed13);
+            GrossTotalDeduction13();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType13 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units13 = $(this).val();
+            if (DeductionType13 == "Amount") {
+
+                var Total3 = $(this).parent().siblings().find("[id $= txtAmount]").val(units13);
+            }
+            else {
+                var quantity13 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice13 = parseFloat(quantity13 * units13);
+                var Fixed13 = TotalPrice13.toFixed(2);
+                var Total13 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed13);
+            }
+            GrossTotalDeduction13();
+        });
+    }
+    var gross13;
+
+    function GrossTotalDeduction13() {
+        grosstotal13 = 0;
+        $("[id $= GV_InvoiceDetail13] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal13 = grosstotal13 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal13]").val(grosstotal13.toFixed(2)).change();
+    }
+    var grossdeduction13;
+
+    function vale14() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity14 = $(this).val();
+            var rate14 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice14 = parseFloat(quantity14 * rate14);
+            var Fixed14 = TotalPrice14.toFixed(2);
+            var Total14 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed14);
+            GrossTotalDeduction14();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType14 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units14 = $(this).val();
+            if (DeductionType14 == "Amount") {
+
+                var Total14 = $(this).parent().siblings().find("[id $= txtAmount]").val(units14);
+            }
+            else {
+                var quantity14 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice14 = parseFloat(quantity14 * units14);
+                var Fixed14 = TotalPrice14.toFixed(2);
+                var Total14 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed14);
+            }
+            GrossTotalDeduction14();
+        });
+    }
+    var gross14;
+
+    function GrossTotalDeduction14() {
+        grosstotal14 = 0;
+        $("[id $= GV_InvoiceDetail14] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal14 = grosstotal14 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal14]").val(grosstotal14.toFixed(2)).change();
+    }
+    var grossdeduction14;
+
+    function vale15() {
+        $("[id $= txtQuantity]").blur(function() {
+            var quantity15 = $(this).val();
+            var rate15 = $(this).parent().siblings().find("[id $= txtRate]").val();
+            var TotalPrice15 = parseFloat(quantity15 * rate15);
+            var Fixed15 = TotalPrice15.toFixed(2);
+            var Total15 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed15);
+            GrossTotalDeduction15();
+        });
+
+        $("[id $= txtRate]").blur(function() {
+            var DeductionType15 = $(this).parent().siblings().find("[id $= txtDescription]").val();
+            var units15 = $(this).val();
+            if (DeductionType15 == "Amount") {
+
+                var Total15 = $(this).parent().siblings().find("[id $= txtAmount]").val(units15);
+            }
+            else {
+                var quantity15 = $(this).parent().siblings().find("[id $= txtQuantity]").val();
+                var TotalPrice15 = parseFloat(quantity15 * units15);
+                var Fixed15 = TotalPrice15.toFixed(2);
+                var Total15 = $(this).parent().siblings().find("[id $= txtAmount]").val(Fixed15);
+            }
+            GrossTotalDeduction15();
+        });
+    }
+    var gross15;
+
+    function GrossTotalDeduction15() {
+        grosstotal15 = 0;
+        $("[id $= GV_InvoiceDetail15] [id $= txtAmount]").each(function(index, item) {
+            if ($(item).val() == "") { $(item).val(0); }
+            grosstotal15 = grosstotal15 + parseFloat($(item).val());
+        });
+        $("[id $= txtGrandInvoiceTotal15]").val(grosstotal15.toFixed(2)).change();
+    }
+    var grossdeduction15;
+</script>
+
+<style type="text/css">
+
+.block, .block-fluid 
+{
+	border: 1px solid #CCC;
+	border-top: 0px;
+	background-color: #F9F9F9;
+	margin-bottom: 05px;
+	-moz-border-bottom-left-radius: 3px;
+	-moz-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-o-border-bottom-left-radius: 3px;
+	-o-border-bottom-right-radius: 3px;
+	-ms-border-bottom-left-radius: 3px;
+	-ms-border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px
+}
+
+.container
+{
+  margin:0 auto;
+  width:960px;
+  font-size:12px;
+  font-family:arial;
+  font-weight:bold;
+}
+
+.top_heading
+{
+    text-align:center;
+}
+
+select
+{
+    border:01px solid #ccc;
+    height:30px;
+    width:250px;
+}
+
+input
+{
+    height: 30px;
+    line-height: 30px;
+    border: outset 1px #CCC;
+    font-size: 14px;
+    border-image: initial;
+    width:250px;
+}
+
+.ui-tabs .ui-tabs-panel
+{
+    display: block;
+    border-width: 0;
+    padding: 0.2em 0.2em;
+    background: none;
+}
+
+.blance
+{
+    text-align: right;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.amount
+{
+    font-size:16px;
+}
+
+.textarea
+{
+    width: 200px;
+    position: relative;
+    top: -1px;
+}
+
+.sam_textbox
+{
+    width:120px;
+}
+
+.btn_1 
+{
+   height: 30px;
+   width: 100px;
+   line-height: 27px;
+   background-color: #029FE2;
+   border-radius: 4px;
+   color: #EDF6E3;
+   font-size:12px;
+   border: 1px solid #029FE2;
+}
+    
+.btn_1:hover
+{
+    background-color: #2C8CB4;
+}
+.btn_spacing
+{
+    margin-right: 5px;
+}
+
+.subtotal
+{
+   float:right;
+}
+
+.subtotal table
+{
+    width: 480px;
+    text-align: right;
+}
+
+.subtotal table tr
+{
+    line-height:40px;
+}
+
+.subtotal table tr td div select
+{
+    line-height:20px;
+}
+
+.discount_value
+{
+    width: 150px;
+    height: 35px;
+}
+
+.comment_box
+{
+    height: 86px;
+    width: 350px;
+    resize: none;
+}
+
+hr
+{
+    border-bottom: 1px solid #CCC;
+}
+
+.file_uploader
+{
+    margin-top:15px;
+}
+
+.subtotal_txt
+{
+    float: right;
+    max-width: 150px;
+    border:1px solid transparent !important;
+    text-align: right;
+    font-weight:bold;
+}
+
+.float_right
+{
+    float:right;
+}
+select .alertbox div
+{
+   margin-top:-50px !important;
+}
+       
+table.data td
+{
+    font-size: 1.06em;
+    border: none!important;
+    color: #555;
+    padding: 2px 2px !important;
+    border-top: 1px solid #E6E6E6!important;
+    border-left: 1px solid #F2F2F2!important;
+    font-family: Verdana, Geneva, sans-serif;
+    border-image: initial;
+}
+
+table.data {
+width: 100%;
+background: white;
+border: 2px solid #029FE2;
+font-size: 10px;
+}
+table.data th {
+font-size: 10px !important;
+}
+
+table.data input[type="text"] {
+width: 108px;
+line-height:20px;
+height:20px;
+}
+
+.data tr td:nth-child(8)
+{
+    text-align:center;
+    width:75px;
+}
+.note
+{
+    width:96.4%;
+    padding-left:10px;
+    height:130px;
+    min-height:130px;
+    max-height:130px;
+    
+}
+</style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<div class="Heading">
+        <table style="width: 100%;">
+            <tbody>
+            <tr>
+                <td style="text-align: center;">
+                    <b class="top_heading">PROFORMA INVOICE</b>
+                </td>
+            </tr>
+        </tbody></table>
+    </div>
+    <div class="container">
+        <asp:UpdatePanel ID="Upd1" runat="server">
+            <ContentTemplate>            
+            
+       <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+                    <ProgressTemplate >
+                        <div id="processMessage">
+                        </div>
+                    </ProgressTemplate>
+              </asp:UpdateProgress>
+        
+        <table style="width:100%;height: 60px;background-color: #EBF4FA;">
+            <tr>
+                <td style="width:150px;">
+                    <div style="float: right;width: 150px;">
+                        <span class="blance">BALANCE DUE</span>
+                        <label class="amount">$0.00<Terms
+/label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div style="float:left;width:300px;margin-top: -58px;margin-left: 3px;">
+            <table>
+                <tr>
+                    <td colspan="2"> 	
+                    Invoice Number
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:144px">
+                        <asp:TextBox ID="txtInvoiceNumber" runat="server" CssClass="sam_textbox" Width="130px"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    Invoice date
+                    </td>
+                    <td>
+                    Due date
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:144px">
+                    <asp:TextBox ID="txtInvoiceDate" placeholder="Invoice Date" require="Select Invoice Date" validate="SaveInvoice"  CssClass="DateTimePicker" Width="130px" runat="server" ></asp:TextBox>
+                    </td>
+                    <td style="width:144px">
+                        <asp:TextBox ID="txtDueDate" placeholder="Due Date" CssClass="DateTimePicker" runat="server" Width="130px"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                   <td  colspan="2">
+                        Sold To :
+                    </td>  
+                </tr>
+                <tr>
+                    <td colspan="2">
+                    <asp:DropDownList runat="server" CssClass="input" id="ddlCustomer" AutoPostBack="true"
+                        validate="SaveInvoice" custom="Select Customer Name" 
+                        customFn="var goal = parseInt(this.value); return goal > 0;" 
+                        onselectedindexchanged="ddlCustomer_SelectedIndexChanged" style="width:280px" >        
+                        </asp:DropDownList> 
+                     </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                    Billing address
+                    </td>                
+                </tr>
+                <tr>
+                    <td style="width:210px" colspan="2">
+                    <asp:TextBox ID="txtBillingAddress" placeholder="Billing Address" runat="server" TextMode="MultiLine" CssClass="textarea" style="width: 278px;height: 45px;"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>                
+                    <td colspan="2">
+                      Email :
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                    <asp:TextBox ID="txtEmail" placeholder="Email" runat="server" style="width:276px;"></asp:TextBox>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div style="float:right;width:300px">
+            <table>
+                <tr>
+                   <td colspan="2">
+                     Port of Loading	
+                    </td> 
+                </tr>
+                <tr>
+                    <td style="width:210px" colspan="2">
+                    <asp:TextBox ID="txtFrom" Width="276px"  runat="server" ReadOnly="true" Text="KARACHI-PAKISTAN" CssClass="sam_textbox"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>	
+                        Port of Discharge    
+                    </td>
+                    <td>
+                        ContainerNo
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:144px">
+                     <asp:TextBox ID="txtTo" runat="server" placeholder="To" CssClass="sam_textbox" Width="130px"></asp:TextBox>
+                    </td>
+                    <td style="width:144px">
+                         <asp:TextBox ID="txtContainerNo" runat="server" placeholder="Container No" CssClass="sam_textbox" Width="130px"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                     Origin Country	
+                    </td>
+                    <td>	
+                       Vessel
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:144px">
+                      <asp:TextBox ID="txtOrCountry" Width="130px"  runat="server" ReadOnly="true" Text="PAKISTAN" CssClass="sam_textbox"></asp:TextBox>
+                    </td>
+                    <td style="width:144px">
+                     <asp:TextBox ID="txtVessel" runat="server" placeholder="Vessel"  CssClass="sam_textbox" Width="130px"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>	
+                      Dest: Country    
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:144px" colspan="2">
+                     <asp:TextBox ID="txtDestCountry" runat="server" placeholder="Destination Country" CssClass="sam_textbox" Width="276px"></asp:TextBox>
+                    </td>
+                </tr>
+            </table>
+        </div>      
+
+    <div style="clear: both;"></div>    
+   <div style="margin-bottom:10px;">  
+       <div id="Mytab" class="block-fluid tab divBorder">
+       <asp:HiddenField ID="hfSelectedTAB" Value="0" runat="server" />
+            <ul>
+                 <li><a href="#tabs-1">Tab 1</a></li>
+                 <li><a href="#tabs-2">Tab 2</a></li>
+                 <li><a href="#tabs-3">Tab 3</a></li>                 
+                 <li><a href="#tabs-4">Tab 4</a></li>
+                 <li><a href="#tabs-5">Tab 5</a></li>
+                 <li><a href="#tabs-6">Tab 6</a></li> 
+                 <li><a href="#tabs-7">Tab 7</a></li>                 
+                 <li><a href="#tabs-8">Tab 8</a></li>
+                 <li><a href="#tabs-9">Tab 9</a></li>
+                 <li><a href="#tabs-10">Tab 10</a></li>
+                 <li><a href="#tabs-11">Tab 11</a></li>
+                 <li><a href="#tabs-12">Tab 12</a></li>
+                 <li><a href="#tabs-13">Tab 13</a></li>                 
+                 <li><a href="#tabs-14">Tab 14</a></li>
+                 <li><a href="#tabs-15">Tab 15</a></li>                
+            </ul>
+            
+            <div id="tabs-1">
+                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">  
+                         <asp:HiddenField ID="hf2g2" runat="server" />
+                          <asp:HiddenField ID="hf1g2" runat="server" />                      
+                             <asp:GridView ID="GV_InvoiceDetail" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail_RowDeleting" Width="100%">
+                                 <Columns>                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" 
+                                         >
+                                         <ItemTemplate>
+                                         <asp:DropDownList ID="ddlFish" runat="server" AutoPostBack="True" DataTextField="EventName"
+                                                 DataValueField="EventID"  
+                                        onselectedindexchanged="ddlFish_SelectedIndexChanged1" Width="123px">
+                                        </asp:DropDownList>
+                                        </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="127px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         >
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"
+                                              
+                                              Width="123px" 
+                                                 AutoPostBack="True" onselectedindexchanged="ddlFishGrade_SelectedIndexChanged1">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="127px" />
+                                     </asp:TemplateField>
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                               
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="127px" />
+                                     </asp:TemplateField>                                     
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="sam_textbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="sam_textbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="sam_textbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="sam_textbox txt" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid1"></asp:Label>
+                                         </ItemTemplate>
+                                         
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="InventoryId" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                      </div>
+            <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddnewRow" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddnewRow_Click"  />
+            <asp:Button Visible="false" ID="btnClear" runat="server" Text="Clear all lines" CssClass="btn_1" 
+                onclick="btnClear_Click" />
+             </div>          
+                <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span><input id="txtGrandInvoiceTotal" value="0" type="text" style="width:110px;" class="SmallTextbox sumition" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span><input id="txtGrandTotal" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>                            
+                          
+            <div id="tabs-2">
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g1" runat="server" />
+                          <asp:HiddenField ID="hf2g1" runat="server" />                        
+                          <asp:HiddenField ID="HfFishID" runat="server" />                          
+                          <asp:HiddenField ID="HfFishGradeId" runat="server" />
+                            
+                             <asp:GridView ID="GV_InvoiceDetail1" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail1_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID" 
+                                             
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True" onselectedindexchanged="ddlFishGrade_SelectedIndexChanged">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox txt" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid2"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+                <div style="clear:both"></div>
+                <div style="width: 250px;float: left;">
+                    <asp:Button ID="btnaddlines2" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+                        onclick="btnaddlines2_Click"  />
+                    <asp:Button Visible="false" ID="btnClear2" runat="server" Text="Clear all lines" CssClass="btn_1" 
+                        onclick="btnClear2_Click" />
+                </div>
+                <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span><input id="txtGrandInvoiceTotal2" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span><input id="txtGrandTotal2" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>            
+            
+            <div id="tabs-3">
+                <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g3" runat="server" />
+                          <asp:HiddenField ID="hf2g3" runat="server" />                         
+                                                 
+                          <asp:HiddenField ID="HiddenField3" runat="server" />                          
+                          <asp:HiddenField ID="HiddenField4" runat="server" />
+                            
+                             <asp:GridView ID="GV_InvoiceDetail3" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail3_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged3">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True" onselectedindexchanged="ddlFishGrade_SelectedIndexChanged3">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox txt" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid3"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+                <div style="clear:both"></div>
+                <div style="width: 250px;float: left;">
+                <asp:Button ID="btnaddlines3" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+                onclick="btnaddlines3_Click"  />
+                <asp:Button ID="btnClear3" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+                 />
+                </div>
+                <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                    <tr>
+                        <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                        <input id="txtGrandInvoiceTotal3" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                    </tr>
+                    <tr>
+                        <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                        <input id="txtGrandTotal3" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                    </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>  
+            
+            <div id="tabs-4">
+                <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g4" runat="server" />
+                          <asp:HiddenField ID="hf2g4" runat="server" />
+                                                   
+                          <asp:HiddenField ID="HiddenField7" runat="server" />                          
+                          <asp:HiddenField ID="HiddenField8" runat="server" />
+                            
+                             <asp:GridView ID="GV_InvoiceDetail4" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail4_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged4">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True"
+                                                  onselectedindexchanged="ddlFishGrade_SelectedIndexChanged4">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid4"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+             <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddlines4" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddlines4_Click"  />
+            <asp:Button ID="btnClear4" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+             />
+            </div>
+            <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                            <input id="txtGrandInvoiceTotal4" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                            <input id="txtGrandTotal4" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+            
+            <div id="tabs-5">
+                <asp:UpdatePanel ID="UpdatePanel5" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                                                    
+                          <asp:HiddenField ID="hf1g5" runat="server" />
+                          <asp:HiddenField ID="hf2g5" runat="server" />
+                                                  
+                          <asp:HiddenField ID="HiddenField11" runat="server" />                          
+                          <asp:HiddenField ID="HiddenField12" runat="server" />
+                            
+                             <asp:GridView ID="GV_InvoiceDetail5" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail5_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged5">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True" 
+                                                 onselectedindexchanged="ddlFishGrade_SelectedIndexChanged5">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid5"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+             <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddlines5" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddlines5_Click"  />
+            <asp:Button ID="btnClear5" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+             />
+            </div>
+            <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                            <input id="txtGrandInvoiceTotal5" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                            <input id="txtGrandTotal5" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+            
+            <div id="tabs-6">
+                <asp:UpdatePanel ID="UpdatePanel6" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g6" runat="server" />
+                          <asp:HiddenField ID="hf2g6" runat="server" />                            
+                             <asp:GridView ID="GV_InvoiceDetail6" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail6_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged6">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True"
+                                                  onselectedindexchanged="ddlFishGrade_SelectedIndexChanged6">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid6"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+             <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddlines6" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddlines6_Click"  />
+            <asp:Button ID="btnClear6" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+             />
+            </div>
+            <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                            <input id="txtGrandInvoiceTotal6" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                            <input id="txtGrandTotal6" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>  
+            
+            <div id="tabs-7">
+                <asp:UpdatePanel ID="UpdatePanel7" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g7" runat="server" />
+                          <asp:HiddenField ID="hf2g7" runat="server" /> 
+                             <asp:GridView ID="GV_InvoiceDetail7" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail7_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged7">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True" 
+                                                 onselectedindexchanged="ddlFishGrade_SelectedIndexChanged7">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid7"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+                <div style="clear:both"></div>
+                <div style="width: 250px;float: left;">
+                <asp:Button ID="btnaddlines7" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+                onclick="btnaddlines7_Click"  />
+                <asp:Button ID="btnClear7" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+                 />
+                </div>
+                <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                    <tr>
+                        <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                        <input id="txtGrandInvoiceTotal7" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                    </tr>
+                    <tr>
+                        <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                        <input id="txtGrandTotal7" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                    </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>  
+            
+            <div id="tabs-8">
+                <asp:UpdatePanel ID="UpdatePanel8" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                         <asp:HiddenField ID="hf1g8" runat="server" />
+                          <asp:HiddenField ID="hf2g8" runat="server" />
+                             <asp:GridView ID="GV_InvoiceDetail8" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail8_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged8">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True"
+                                                  onselectedindexchanged="ddlFishGrade_SelectedIndexChanged8">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid8"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+             <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddlines8" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddlines8_Click"  />
+            <asp:Button ID="btnClear8" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+             />
+            </div>
+            <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                            <input id="txtGrandInvoiceTotal8" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                            <input id="txtGrandTotal8" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+            
+            <div id="tabs-9">
+                <asp:UpdatePanel ID="UpdatePanel9" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g9" runat="server" />
+                          <asp:HiddenField ID="hf2g9" runat="server" />
+                             <asp:GridView ID="GV_InvoiceDetail9" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail9_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged9">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True" 
+                                                 onselectedindexchanged="ddlFishGrade_SelectedIndexChanged9">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid9"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+             <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddlines9" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddlines9_Click"  />
+            <asp:Button ID="btnClear9" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+             />
+            </div>
+            <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                            <input id="txtGrandInvoiceTotal9" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                            <input id="txtGrandTotal9" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+            
+            <div id="tabs-10">
+                <asp:UpdatePanel ID="UpdatePanel10" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g10" runat="server" />
+                          <asp:HiddenField ID="hf2g10" runat="server" />
+                             <asp:GridView ID="GV_InvoiceDetail10" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail10_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged10">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True"
+                                                  onselectedindexchanged="ddlFishGrade_SelectedIndexChanged10">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid10"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+             <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddlines10" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddlines10_Click"  />
+            <asp:Button ID="btnClear10" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+             />
+            </div>
+            <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                            <input id="txtGrandInvoiceTotal10" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                            <input id="txtGrandTotal10" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>            
+            
+            <div id="tabs-11">
+                <asp:UpdatePanel ID="UpdatePanel11" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g11" runat="server" />
+                          <asp:HiddenField ID="hf2g11" runat="server" />                            
+                             <asp:GridView ID="GV_InvoiceDetail11" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail11_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged11">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True"
+                                                  onselectedindexchanged="ddlFishGrade_SelectedIndexChanged11">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid11"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+             <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddlines11" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddlines11_Click"  />
+            <asp:Button ID="btnClear11" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+             />
+            </div>
+            <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                            <input id="txtGrandInvoiceTotal11" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                            <input id="txtGrandTotal11" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>  
+            
+            <div id="tabs-12">
+                <asp:UpdatePanel ID="UpdatePanel12" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g12" runat="server" />
+                          <asp:HiddenField ID="hf2g12" runat="server" /> 
+                             <asp:GridView ID="GV_InvoiceDetail12" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail12_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged12">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True" 
+                                                 onselectedindexchanged="ddlFishGrade_SelectedIndexChanged12">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid12"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+                <div style="clear:both"></div>
+                <div style="width: 250px;float: left;">
+                <asp:Button ID="btnaddlines12" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+                onclick="btnaddlines12_Click"  />
+                <asp:Button ID="btnClear12" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+                />
+                </div>
+                <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                    <tr>
+                        <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                        <input id="txtGrandInvoiceTotal12" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                    </tr>
+                    <tr>
+                        <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                        <input id="txtGrandTotal12" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                    </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>  
+            
+            <div id="tabs-13">
+                <asp:UpdatePanel ID="UpdatePanel13" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                         <asp:HiddenField ID="hf1g13" runat="server" />
+                          <asp:HiddenField ID="hf2g13" runat="server" />
+                             <asp:GridView ID="GV_InvoiceDetail13" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail13_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged13">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True"
+                                                  onselectedindexchanged="ddlFishGrade_SelectedIndexChanged13">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid13"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+             <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddlines13" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddlines13_Click"  />
+            <asp:Button ID="btnClear13" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+             />
+            </div>
+            <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                            <input id="txtGrandInvoiceTotal13" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                            <input id="txtGrandTotal13" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+            
+            <div id="tabs-14">
+                <asp:UpdatePanel ID="UpdatePanel14" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g14" runat="server" />
+                          <asp:HiddenField ID="hf2g14" runat="server" />
+                             <asp:GridView ID="GV_InvoiceDetail14" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail14_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged14">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True" 
+                                                 onselectedindexchanged="ddlFishGrade_SelectedIndexChanged14">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid14"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+             <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddlines14" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddlines14_Click"  />
+            <asp:Button ID="btnClear14" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+            />
+            </div>
+            <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                            <input id="txtGrandInvoiceTotal14" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                            <input id="txtGrandTotal14" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+            
+            <div id="tabs-15">
+                <asp:UpdatePanel ID="UpdatePanel15" runat="server">
+                        <ContentTemplate>
+                         <div class="block-fluid" style="float: left;overflow: hidden;width: 100%;border: transparent;">                        
+                          <asp:HiddenField ID="hf1g15" runat="server" />
+                          <asp:HiddenField ID="hf2g15" runat="server" />
+                             <asp:GridView ID="GV_InvoiceDetail15" runat="server" AutoGenerateColumns="False" 
+                                 CssClass="data main" onrowdeleting="GV_InvoiceDetail15_RowDeleting" 
+                                 Width="100%" >
+                                 <Columns>
+                                 
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Name" itemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFish" runat="server" Width="123px" AutoPostBack="True" 
+                                                  DataTextField="EventName"
+                                                 DataValueField="EventID"                                              
+                                                 onselectedindexchanged="ddlFish_SelectedIndexChanged15">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Grade" 
+                                         ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishGrade" runat="server"  Width="123px" 
+                                                 AutoPostBack="True"
+                                                  onselectedindexchanged="ddlFishGrade_SelectedIndexChanged15">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                       <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Fish Size" 
+                                         ItemStyle-Width="100%">
+                                         <ItemTemplate>
+                                             <asp:DropDownList ID="ddlFishSize"
+                                            
+                                              runat="server" Width="123px">
+                                             </asp:DropDownList>
+                                         </ItemTemplate>
+                                         <HeaderStyle HorizontalAlign="Left" />
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Description" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtDescription" runat="server" CssClass="SmallTextbox" 
+                                                 Text='<%#Bind("txtDescription") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Net Weight (KGS)" ItemStyle-Width="100px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtQuantity" runat="server" 
+                                                 CssClass="SmallTextbox decimalOnly txt" Text='<%#Bind("txtQuantity") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="100px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Unit Price" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <asp:TextBox ID="txtRate" runat="server" CssClass="SmallTextbox decimalOnly txt" 
+                                                 Text='<%#Eval("txtRate") %>'></asp:TextBox>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="Amount" ItemStyle-Width="114px">
+                                         <ItemTemplate>
+                                             <input ID="txtAmount" runat="server" Class="SmallTextbox" ReadOnly="true" 
+                                                 value='<%#Bind("txtAmount") %>' />
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:TemplateField HeaderText="GridName" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="txtGridName" runat="server" Text="Grid15"></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     
+                                    <asp:TemplateField HeaderText="lblInventory" ItemStyle-Width="114px" 
+                                         Visible="false">
+                                         <ItemTemplate>
+                                             <asp:Label ID="lblInventoryId" runat="server" Text=""></asp:Label>
+                                         </ItemTemplate>
+                                         <ItemStyle Width="114px" />
+                                     </asp:TemplateField>
+                                     <asp:CommandField ShowDeleteButton="true" />
+                                 </Columns>
+                             </asp:GridView>
+                        </div>
+             <div style="clear:both"></div>
+            <div style="width: 250px;float: left;">
+            <asp:Button ID="btnaddlines15" runat="server" Text="Add lines" CssClass="btn_1 btn_spacing" 
+            onclick="btnaddlines15_Click"  />
+            <asp:Button ID="btnClear15" Visible="false" runat="server" Text="Clear all lines" CssClass="btn_1" 
+             />
+            </div>
+            <table style="text-align: right;width: 43%;float: right;margin-bottom: 3px;">                       
+                        <tr>
+                            <td><span style="margin-left:163px;">Total :&nbsp;</span>
+                            <input id="txtGrandInvoiceTotal15" value="0" type="text" class="SmallTextbox sumition" style="width:110px;" readonly="True" runat="server"/></td>
+                        </tr>
+                        <tr>
+                            <td style="display:none;"><span>Grand Total Invoice:&nbsp;</span>
+                            <input id="txtGrandTotal15" value="0" type="text" class="SmallTextbox" readonly="True" runat="server"/></td>
+                        </tr>
+                </table>
+                </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>     
+           
+            <asp:UpdatePanel ID="updpnlbtn" runat="server">
+                <ContentTemplate>                
+                    <table style="width: 950px;"> 
+                        <tr>
+                            <td style="text-align:right">
+                               <asp:Button ID="btnCancel" runat="server" Text="Cancel" 
+                    CssClass="btn_1 btn_spacing float_right" onclick="btnCancel_Click" />
+                <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn_1 btn_spacing float_right"
+                onclick="btnSave_Click" OnClientClick="return validate('SaveInvoice');" />
+                              </td>
+                        </tr>
+                    </table>
+                    
+            
+          <div id="Notification_ItemID" style="display:none; width:98%; margin:auto;">
+                <div class="alert-red">
+                    <h4>Error!</h4>
+                    <label id="IdError" runat="server" style="color:White">Add Atleast One Record</label> 
+                </div>
+            </div>
+        
+      
+            <div id="Notification_Success" style="display:none; width:98%; margin:auto;">
+                <div class="alert-green">
+                    <h4>Success</h4>
+                    <label id="lblSuccessMsg" runat="server" style="color:White">Invoice Created Successfully</label>
+                </div>
+            </div>
+  
+            <div id="Notification_Error" style="display:none; width:98%; margin:auto;">
+                <div class="alert-red">  
+                    <h4>Error!</h4>
+                        <label id="lblNewError" runat="server" style="color:White">Please Select Item</label> 
+                    </div>
+                </div>
+                    
+            </ContentTemplate>
+            </asp:UpdatePanel>
+            </div>        
+        </div>
+        
+        <div class="subtotal">
+        <table>
+            <tr>
+                <td style="width:320px">Grand Total</td>
+                <td><asp:TextBox ID="txttotal2" readonly="true"  runat="server" class="subtotal_txt" ></asp:TextBox></td>
+            </tr>
+             <tr>
+                <td>
+                    <div style="float:right;line-height: 10px; display:none;">
+                   
+                    <asp:TextBox ID="txtDiscount" CssClass="decimalOnly" runat="server" Width="50px" style="height: 28px;line-height: 20px;"></asp:TextBox>
+                    </div>
+                </td>
+                <td style="display:none;">$0.00</td>
+            </tr>
+            <tr style="display:none">
+                <td>Total</td>
+                <td>$0.00</td>
+            </tr>
+             <tr style="display:none;">
+                <td>Balance due</td>
+                <td>$0.00</td>
+            </tr>
+        </table>
+        </div>
+        <div style="clear:both"></div>
+        <table style="width:955px;height: 60px;" id="ShippingInfo">
+        <tr>
+            <td style="width: 90px;">Exporter
+            </td>
+            <td style="width: 210px;">
+                  <asp:TextBox ID="txtExporter" runat="server"  TextMode="MultiLine" CssClass="textarea" ReadOnly="true" Width="200px"
+                  Text="M/S KARIM IMPEX KARACHI-74000 PAKISTAN" >                  
+                  </asp:TextBox>
+            </td>
+            
+            <td style="width: 90px;">Consignee
+            </td>
+            <td style="width: 210px;">
+                  <asp:TextBox ID="txtConsignee" placeholder="Consignee" runat="server"  TextMode="MultiLine" CssClass="textarea" Width="200px"></asp:TextBox>
+            </td>
+            
+             <td style="width: 90px;">Buyer
+            </td>
+            <td style="width: 210px;">
+                  <asp:TextBox ID="txtBuyer" runat="server" placeholder="Buyer" TextMode="MultiLine" CssClass="textarea" Width="200px"></asp:TextBox>
+            </td>
+           
+        </tr>
+        </table>
+        <div style="clear:both"></div>
+         <table style="width:960px;height: 60px;" id="shiping">
+            <tr>
+                <td style="width:90px; white-space:nowrap;">ExportersRef
+                </td>
+                <td style="width: 210px;">
+                      <asp:TextBox ID="txtExportersRef" runat="server" placeholder="ExportersRef" CssClass="sam_textbox" Width="200px"></asp:TextBox>
+                </td>
+                <td style="width:90px;white-space:nowrap;">
+                   Form 'E' No :
+                </td>
+                <td style="width: 210px;">
+                  <asp:TextBox ID="txtFormENo" runat="server" placeholder="Form E No" CssClass="sam_textbox" Width="200px"></asp:TextBox>
+                </td>
+                <td style="width:90px;">
+                 Freight :
+                </td>
+                <td style="width: 210px;white-space:nowrap;">
+                  <asp:TextBox ID="txtFreight" runat="server" placeholder="Freight" CssClass="sam_textbox" Width="200px"></asp:TextBox>
+                </td>
+           </tr>
+             <tr>
+             <td style="width:90px;white-space:nowrap;">
+                    Net Weight :
+                </td>
+                <td style="width: 210px;">
+                    <asp:TextBox ID="txtNetWeight" runat="server" placeholder="Net Weight" CssClass="sam_textbox decimalOnly" Width="200px"></asp:TextBox>
+                </td>
+                 <td style="width:90px;white-space:nowrap;">
+                 Gross Weight :
+                </td>
+                <td style="width: 210px;">
+                    <asp:TextBox ID="txtGrossWeight" runat="server" placeholder="Gross Weight" CssClass="sam_textbox decimalOnly" Width="200px"></asp:TextBox>
+                </td>
+                 <td style="width:90px;white-space:nowrap;">
+                 Proforma No :
+                </td>
+                <td style="width: 210px;">
+                    <asp:TextBox ID="txtproformaNo" runat="server" placeholder="Proforma No" CssClass="sam_textbox" Width="200px"></asp:TextBox>
+                </td>                
+            </tr>
+            <tr>
+                <td style="width:90px;">
+                 Insurance :
+                </td>
+                <td style="width: 210px;" colspan="3">
+                    <asp:TextBox ID="txtInsurance" runat="server" placeholder="Insurance" CssClass="sam_textbox" Width="200px"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td style="display:none;">	
+                    Invoice ID
+                </td>
+                <td>               	
+                Terms
+                </td>
+                <td colspan="6">
+                    <asp:TextBox ID="txtTerm" runat="server" CssClass="sam_textbox"
+                    placeholder="Terms" Width="97%"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td  style="display:none;">
+                    <asp:TextBox ID="txtInvoiceID" runat="server" CssClass="sam_textbox"></asp:TextBox>
+                </td>
+                
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align:left; padding-left:5px;">
+                 Note
+                </td>                
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <asp:TextBox ID="txtNote" runat="server" placeholder="The above goods are shipped under T/T Basis." TextMode="MultiLine" CssClass="note"></asp:TextBox>
+                </td>                 
+            </tr>
+        </table>
+        <br />       
+           <asp:HiddenField ID="hdnMinDate" runat="server" />
+           <asp:HiddenField ID="hdnMaxDate" runat="server" />
+                <hr />               
+            <div class="file_uploader">
+                <asp:FileUpload ID="FileUpload1" runat="server" />
+               
+            </div>
+         </ContentTemplate>
+         </asp:UpdatePanel>
+    </div>
+
+</asp:Content>
+

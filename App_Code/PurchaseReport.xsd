@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="PurchaseReport" targetNamespace="http://tempuri.org/PurchaseReport.xsd" xmlns:mstns="http://tempuri.org/PurchaseReport.xsd" xmlns="http://tempuri.org/PurchaseReport.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="PurchaseReport" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="PurchaseReport" msprop:Generator_DataSetName="PurchaseReport">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="PurchaseInvoiceReport" msprop:Generator_UserTableName="PurchaseInvoiceReport" msprop:Generator_RowDeletedName="PurchaseInvoiceReportRowDeleted" msprop:Generator_RowChangedName="PurchaseInvoiceReportRowChanged" msprop:Generator_RowClassName="PurchaseInvoiceReportRow" msprop:Generator_RowChangingName="PurchaseInvoiceReportRowChanging" msprop:Generator_RowEvArgName="PurchaseInvoiceReportRowChangeEvent" msprop:Generator_RowEvHandlerName="PurchaseInvoiceReportRowChangeEventHandler" msprop:Generator_TableClassName="PurchaseInvoiceReportDataTable" msprop:Generator_TableVarName="tablePurchaseInvoiceReport" msprop:Generator_RowDeletingName="PurchaseInvoiceReportRowDeleting" msprop:Generator_TablePropName="PurchaseInvoiceReport">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="pInvoiceID" msprop:Generator_UserColumnName="pInvoiceID" msprop:Generator_ColumnPropNameInRow="pInvoiceID" msprop:Generator_ColumnVarNameInTable="columnpInvoiceID" msprop:Generator_ColumnPropNameInTable="pInvoiceIDColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="VendorID" msprop:Generator_UserColumnName="VendorID" msprop:Generator_ColumnPropNameInRow="VendorID" msprop:Generator_ColumnVarNameInTable="columnVendorID" msprop:Generator_ColumnPropNameInTable="VendorIDColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="InvoiceDate" msprop:Generator_UserColumnName="InvoiceDate" msprop:Generator_ColumnPropNameInRow="InvoiceDate" msprop:Generator_ColumnVarNameInTable="columnInvoiceDate" msprop:Generator_ColumnPropNameInTable="InvoiceDateColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Balance" msprop:Generator_UserColumnName="Balance" msprop:Generator_ColumnPropNameInRow="Balance" msprop:Generator_ColumnVarNameInTable="columnBalance" msprop:Generator_ColumnPropNameInTable="BalanceColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CompanyName" msprop:Generator_UserColumnName="CompanyName" msprop:Generator_ColumnPropNameInRow="CompanyName" msprop:Generator_ColumnVarNameInTable="columnCompanyName" msprop:Generator_ColumnPropNameInTable="CompanyNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="VoucherTypeName" msprop:Generator_UserColumnName="VoucherTypeName" msprop:Generator_ColumnVarNameInTable="columnVoucherTypeName" msprop:Generator_ColumnPropNameInRow="VoucherTypeName" msprop:Generator_ColumnPropNameInTable="VoucherTypeNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Amount" msprop:Generator_UserColumnName="Amount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInTable="AmountColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

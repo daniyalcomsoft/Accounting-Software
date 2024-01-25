@@ -1,0 +1,759 @@
+/*
+Item Name : CSS3 Mega Drop Down Menu
+Author URI : http://codecanyon.net/user/Pixelworkshop/
+Item URI : http://codecanyon.net/item/css3-mega-drop-down-menu/126387
+Version : 4.0
+*/
+
+/*
+
+TABLE OF CONTENTS
+
+01 MENU BAR
+02 DROP DOWN MENU
+03 CONTENT STYLING
+04 CONTACT FORM
+05 COLORS
+
+*/
+
+
+
+/*  _______________________________________
+
+	01 MENU BAR
+    _______________________________________  */
+
+
+
+#wrapper_menu {
+	 display: block;
+    margin: 3px auto 0;
+    position: relative;
+    width: 980px;
+    z-index: 1000;
+	
+}
+	#wrapper_menu .menu {
+		list-style:none;
+		width:940px;
+		/*margin:30px auto 0px auto;*/
+		margin:0px auto 0px auto;
+		height:43px;
+		padding:0px 20px 0px 20px;
+	}
+#wrapper_menu_full {
+    width: 100%;
+    margin:0;
+    display:block;
+    position: relative;
+    z-index:9999;
+}
+	#wrapper_menu_full .menu {
+		list-style:none;
+		width:940px;
+		margin:0px auto 0px auto;
+		height:43px;
+		padding:0px 20px 0px 20px;
+	}
+.menu li {
+	float:left;
+	text-align:center;
+	position:relative;
+	margin-right:20px;
+	margin-top:6px;
+	border:none;
+}
+.menu li.fullwidth {
+	position: static !important;
+}
+.menu li:hover {
+	background:#fff;
+	border:1px solid transparent;
+	border-bottom:none;
+	margin-right:19px;
+	/*background: -moz-linear-gradient(top, #F4F4F4, #EEEEEE);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F4F4F4), to(#EEEEEE));
+	background: -o-linear-gradient(top, #F4F4F4, #EEEEEE);*/
+	-moz-border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    -khtml-border-radius: 5px 5px 0px 0px;
+    border-radius: 5px 5px 0px 0px;
+}
+.menu li.nodrop:hover {
+	background:#fff;
+	border:1px solid transparent;
+	padding: 4px 10px 4px 9px;
+	/*background: -moz-linear-gradient(top, #F4F4F4, #EEEEEE);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F4F4F4), to(#EEEEEE));
+	background: -o-linear-gradient(top, #F4F4F4, #EEEEEE);*/
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+.menu li.nodrop:hover a {
+	padding: 0px;
+}
+.menu li a {
+	color: #fff;
+	outline:0;
+	padding: 5px 10px 3px 10px;
+	text-decoration:none;
+	display:block;
+	/*text-shadow: 1px 1px 1px #000;*/
+}
+.menu li:hover a {
+	color:#161616;
+	text-shadow: none;
+	position:relative;
+	z-index:11;
+	border-bottom:1px solid #EEEEEE;
+	padding: 4px 9px 10px 9px;
+}
+.menu li:hover div a {
+	display:inline;
+}
+.menu li .drop {
+	padding-right:27px;
+	background:url("../images/drop.png") no-repeat right 13px;
+}
+.menu li:hover .drop {
+	padding-right:27px;
+	background:url("../images/drop.png") no-repeat right 12px;
+}
+
+/* Right aligned menu item */
+
+.menu .right {
+	float:right;
+	right:0;
+	margin-right:0px;
+}
+.menu li.right:hover {
+	margin-right:-1px;
+}
+
+
+
+/*  _______________________________________
+
+	02 DROP DOWN MENU
+    _______________________________________  */
+
+
+
+/* Left & right aligned common styles */
+
+.menu .dropdown_1column, 
+.menu .dropdown_2columns, 
+.menu .dropdown_3columns, 
+.menu .dropdown_4columns,
+.menu .dropdown_5columns,
+.menu .dropdown_fullwidth {
+	margin:4px auto;
+	left:-999em;
+	position:absolute;
+	background:#fff;
+	border:1px solid #029fe2;
+	padding:10px;
+	text-align:left;
+	-moz-border-radius: 0px 5px 5px 5px;
+    -webkit-border-radius: 0px 5px 5px 5px;
+    -khtml-border-radius: 0px 5px 5px 5px;
+    border-radius: 0px 0px 0px 0px;
+    margin-top: 10px;
+    background-color:#fff;
+	/*background: -moz-linear-gradient(top, #EEEEEE, #BBBBBB);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEEEEE), to(#BBBBBB));
+	background: -o-linear-gradient(top, #EEEEEE, #BBBBBB);*/
+}
+
+/* Drop Downs Sizes */
+
+.menu .dropdown_1column {width: 145px;}
+.menu .dropdown_2columns {width: 300px;}
+.menu .dropdown_3columns {width: 455px;}
+.menu .dropdown_4columns {width: 610px;}
+.menu .dropdown_5columns {width: 765px;}
+.menu .dropdown_fullwidth {
+	width: 920px;
+	-moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -khtml-border-radius:5px;
+    border-radius:5px;
+}
+.menu li .first_fullwidth {
+	-moz-border-radius: 0px 5px 5px 5px;
+    -webkit-border-radius: 0px 5px 5px 5px;
+    border-radius: 0px 5px 5px 5px;
+}
+
+/* Showing Drop Down on Mouse Hover - Left aligned */
+
+.menu li:hover .dropdown_1column, 
+.menu li:hover .dropdown_2columns, 
+.menu li:hover .dropdown_3columns,
+.menu li:hover .dropdown_4columns,
+.menu li:hover .dropdown_5columns {
+	left:-1px;
+	top:25px;
+}
+.menu li:hover .dropdown_fullwidth {
+	left:21px;
+	top:33px;
+	display: block;
+}
+#wrapper_menu_full .menu li:hover .dropdown_fullwidth {
+	left:50%;
+	margin-left:-470px;
+	top:32px;
+	display: block;
+}
+
+/* Showing Drop Down on Mouse Hover - Right aligned */
+
+.menu li .align_right {
+	/* Rounded Corners */
+	-moz-border-radius: 5px 0px 5px 5px;
+    -webkit-border-radius: 5px 0px 5px 5px;
+    border-radius: 5px 0px 5px 5px;
+}
+.menu li:hover .align_right {
+	left:auto;
+	right:-1px;
+	top:25px;
+}
+.menu li.right:hover .dropdown_fullwidth {
+	right:18px;
+	top:33px;
+}
+
+/* Columns Sizes */
+
+.menu .col_1,
+.menu .col_2,
+.menu .col_3,
+.menu .col_4,
+.menu .col_5,
+.menu .col_6 {
+	display:inline;
+	float: left;
+	position: relative;
+	margin-left: 10px;
+}
+.menu .col_1 {width:145px;}
+.menu .col_2 {width:300px;}
+.menu .col_3 {width:455px;}
+.menu .col_4 {width:610px;}
+.menu .col_5 {width:765px;}
+.menu .col_6 {width:920px;}
+
+/* IMPORTANT */
+
+/* Use the firstcolumn class for the items that stick to the left edge of the dropdown */
+.menu .firstcolumn {
+	margin-left: 0; /* Clearing margin & left */
+	clear: left;
+}
+
+
+
+/*  _______________________________________
+
+	03 CONTENT STYLING
+    _______________________________________  */
+
+
+
+.menu p,
+.menu ul,
+.menu li,
+.menu h2,
+.menu h3 {
+	font-size:14px; 
+	font-family:Arial, Helvetica, sans-serif;
+	line-height:21px;
+	text-align:left;
+}
+.menu p {
+	font-size:12px;
+	line-height:18px;
+	margin:0;
+	margin-bottom:10px;
+	text-shadow: 1px 1px 1px #FFFFFF;
+}
+.menu .strong {
+	font-weight:bold;
+}
+.menu .italic {
+	font-style:italic;
+}
+.menu h2, 
+.menu h3 {
+	text-shadow: 1px 1px 1px #FFFFFF;
+	border-bottom:1px solid #888888;
+	margin-top:7px;
+}
+.menu h2 {
+	font-weight:400;
+	font-size:21px;
+	margin-bottom:18px;
+	padding-bottom:11px;
+}
+.menu h3 {
+	font-weight:600;
+	font-size:12px;
+	margin-bottom:14px;
+	padding-bottom:7px;
+}
+.menu li:hover div a {
+	text-decoration:none;
+	text-shadow:none;
+	border:none;
+	padding:0;
+}
+.menu .pusher { /* Use this pucher if you want to give more vertical spacing between your rows of content */
+	margin-top:18px;
+}
+
+/* Icon paragraphs */
+
+.menu .help,
+.menu .favorite,
+.menu .mail,
+.menu .print {
+	padding-left:36px;
+	margin-bottom:18px;
+}
+.menu .help {background:url("img/help.png") no-repeat 0px 2px;}
+.menu .favorite {background:url("img/favorite.png") no-repeat 0px 2px;}
+.menu .mail {background:url("img/mail.png") no-repeat 0px 2px;}
+.menu .print {background:url("img/print.png") no-repeat 0px 2px;}
+
+/* Images styles */
+
+.menu .imgshadow_dark { /* Better style on dark background */
+	background:#FFFFFF;
+	padding:4px;
+	border:1px solid #333333;
+	margin-top:5px;
+	-moz-box-shadow:0px 0px 5px #000000;
+	-webkit-box-shadow:0px 0px 5px #000000;
+	box-shadow:0px 0px 5px #000000;
+}
+.menu .imgshadow_light { /* Better style on light background */
+	background:#FFFFFF;
+	padding:4px;
+	border:1px solid #777777;
+	margin-top:5px;
+	-moz-box-shadow:0px 0px 5px #666666;
+	-webkit-box-shadow:0px 0px 5px #666666;
+	box-shadow:0px 0px 5px #666666;
+}
+.menu .img_left { /* Image sticks to the left */
+	width:auto;
+	float:left;
+	margin:2px 15px 5px 0px;
+}
+.menu .img_right { /* Image sticks to the right */
+	width:auto;
+	float:right;
+	margin:2px 0px 5px 15px;
+}
+
+/* Box styles */
+
+.menu li .black_box,
+.menu li .dark_grey_box {
+	color: #eeeeee;
+	text-shadow: 1px 1px 1px #000;
+	padding:4px 6px 4px 6px;
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+.menu li .black_box {
+	background-color:#333333;
+	-webkit-box-shadow:inset 0 0 3px #000000;
+	-moz-box-shadow:inset 0 0 3px #000000;
+	box-shadow:inset 0 0 3px #000000;
+}
+.menu li .dark_grey_box {
+	background-color:#555555;
+	-webkit-box-shadow:inset 0 0 3px #111111;
+	-moz-box-shadow:inset 0 0 3px #111111;
+	box-shadow:inset 0 0 3px #111111;
+}
+
+/* Standard lists styles */
+
+.menu li ul {
+	list-style:none;
+	padding:0;
+	margin:0 0 12px 0;
+}
+.menu li ul li {
+	font-size:12px;
+	line-height:24px;
+	position:relative;
+	text-shadow: 1px 1px 1px #ffffff;
+	padding:0;
+	margin:0;
+	float:left;
+	text-align:left;
+	width:145px;
+}
+.menu li ul li a {
+	padding:0;
+}
+.menu li ul li:hover {
+	background:none;
+	border:none;
+	padding:0;
+	margin:0;
+}
+
+/* Greybox lists styles */
+
+.menu li .greybox li {
+	background:#F4F4F4;
+	border:1px solid #bbbbbb;
+	margin:0px 0px 4px 0px;
+	padding:4px 6px 4px 6px;
+	width:131px;
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+.menu li .greybox li:hover {
+	background:#ffffff;
+	border:1px solid #aaaaaa;
+	padding:4px 6px 4px 6px;
+	margin:0px 0px 4px 0px;
+}
+
+/* Other lists styles */
+
+.menu li .plus li {
+	background: url("img/plus.png") left 6px no-repeat;
+	margin:0px 0px 4px 0px;
+	padding:0px 0px 0px 21px;
+	width:109px;
+}
+.menu li .plus li:hover {
+	background: url("img/plus.png") left 6px no-repeat;
+	padding:0px 0px 0px 21px;
+	margin:0px 0px 4px 0px;
+}
+
+/* Social Icons */
+
+.menu li ul.social {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+.menu li ul.social li {
+	padding-top:5px;
+	margin:0 12px 12px 0;
+	float:left;
+	position:relative;
+	display:inline;
+	width:32px;
+}
+.menu li ul.social li img {
+	border:none;
+}
+.menu li ul.social li:hover {
+	padding-top:5px;
+	margin:-1px 12px 12px 0;
+}
+.menu li ul.social li span {
+	display:none;
+}
+
+/* 2-Levels Drop Down */
+
+
+.menu .levels, .menu .levels ul { /* all lists */
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.menu li:hover .levels a {
+	display:block;
+}
+.menu .levels a {
+	display: block;
+	width: 10em;
+}
+.menu .levels a.parent, .menu .levels a.parent:hover {
+	background: url("img/drop2.png") right center no-repeat;
+}
+.menu .levels li {
+	float: left;
+	width:150px;
+}
+.menu .levels li ul { /* second-level lists */
+	position: absolute;
+	border:1px solid #666666;
+	background:#EEEEEE;
+	top:-23px;
+	margin:15px 0px 0px 4px;
+	padding:6px;
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+	background: -moz-linear-gradient(top, #EEEEEE, #BBBBBB);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EEEEEE), to(#BBBBBB));
+	background: -o-linear-gradient(top, #EEEEEE, #BBBBBB);
+	left: -999em;
+}
+.menu .levels li ul ul {
+	top:-23px;
+}
+.menu .levels li:hover ul ul, .menu .levels li:hover ul ul ul {
+	left: -999em;
+}
+.menu .levels li:hover ul, .menu .levels li li:hover ul, .menu .levels li li li:hover ul {
+	left: 142px;
+}
+
+
+
+/*  _______________________________________
+
+	04 CONTACT FORM
+    _______________________________________  */
+
+
+
+
+
+
+/*  _______________________________________
+
+	05 COLORS
+    _______________________________________  */
+
+
+
+/* Black */
+
+.menu_black {
+	background: #333;
+	background: -moz-linear-gradient(top, #555, #2a2a2a);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#555), to(#2a2a2a));
+	background: -o-linear-gradient(top, #555, #2a2a2a);
+}
+#wrapper_menu .menu_black {
+	border: 1px solid #444;
+	border-top: 1px solid #777;
+}
+#wrapper_menu_full .menu_black {
+	border-bottom: 1px solid #444;
+}
+.menu_black li:hover div a {
+	color:#444;
+}
+.menu_black li:hover div a:hover {
+	color:#777;
+}
+.menu_black li ul li a:hover {
+	color:#777;
+}
+
+/* Blue */
+
+.menu_blue {
+	background: #014464;
+	background: -moz-linear-gradient(top, #0272a7, #013953);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0272a7), to(#013953));
+	background: -o-linear-gradient(top, #0272a7, #013953);
+}
+#wrapper_menu .menu_blue {
+	border: 1px solid #015b86;
+	border-top: 1px solid #029feb;
+}
+#wrapper_menu_full .menu_blue {
+	border-bottom: 1px solid #015b86;
+}
+.menu_blue li:hover div a {
+	color:#015b86;
+}
+.menu_blue li:hover div a:hover {
+	color:#029feb;
+}
+.menu_blue li ul li a:hover {
+	color:#029feb;
+}
+
+/* Brown */
+
+.menu_brown {
+	background: #44391e;
+	background: -moz-linear-gradient(top, #736033, #382f19);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#736033), to(#382f19));
+	background: -o-linear-gradient(top, #736033, #382f19);
+}
+#wrapper_menu .menu_brown {
+	border: 1px solid #5c4c29;
+	border-top: 1px solid #a28748;
+}
+#wrapper_menu_full .menu_brown {
+	border-bottom: 1px solid #5c4c29;
+}
+.menu_brown li:hover div a {
+	color:#5c4c29;
+}
+.menu_brown li:hover div a:hover {
+	color:#a28748;
+}
+.menu_brown li ul li a:hover {
+	color:#a28748;
+}
+
+/* Green */
+
+
+#wrapper_menu_full .menu_green {
+	border-bottom: 1px solid #52711f;
+}
+.menu_green li:hover div a {
+	color:#169CAD;
+}
+.menu_green li:hover div a:hover {
+	color:#11c2d9;
+}
+.menu_green li ul li a:hover {
+	color:#8bc135;
+}
+
+/* Light Blue */
+
+.menu_lightblue {
+	background: #52786b;
+	background: -moz-linear-gradient(top, #709e8e, #52786b);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#709e8e), to(#52786b));
+	background: -o-linear-gradient(top, #709e8e, #52786b);
+}
+#wrapper_menu .menu_lightblue {
+	border: 1px solid #608c7d;
+	border-top: 1px solid #99b9ae;
+}
+#wrapper_menu_full .menu_lightblue {
+	border-bottom: 1px solid #608c7d;
+}
+.menu_lightblue li:hover div a {
+	color:#608c7d;
+}
+.menu_lightblue li:hover div a:hover {
+	color:#99b9ae;
+}
+.menu_lightblue li ul li a:hover {
+	color:#99b9ae;
+}
+
+/* Orange */
+
+.menu_orange {
+	background: #d24900;
+	background: -moz-linear-gradient(top, #ff6717, #c14300);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ff6717), to(#c14300));
+	background: -o-linear-gradient(top, #ff6717, #c14300);
+}
+#wrapper_menu .menu_orange {
+	border: 1px solid #f45500;
+	border-top: 1px solid #ff945b;
+}
+#wrapper_menu_full .menu_orange {
+	border-bottom: 1px solid #f45500;
+}
+.menu_orange li:hover div a {
+	color:#f45500;
+}
+.menu_orange li:hover div a:hover {
+	color:#ff945b;
+}
+.menu_orange li ul li a:hover {
+	color:#ff945b;
+}
+
+/* Pink */
+
+.menu_pink {
+	background: #910045;
+	background: -moz-linear-gradient(top, #d50066, #80003d);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#d50066), to(#80003d));
+	background: -o-linear-gradient(top, #d50066, #80003d);
+}
+#wrapper_menu .menu_pink {
+	border: 1px solid #b30055;
+	border-top: 1px solid #ff1a87;
+}
+#wrapper_menu_full .menu_pink {
+	border-bottom: 1px solid #b30055;
+}
+.menu_pink li:hover div a {
+	color:#b30055;
+}
+.menu_pink li:hover div a:hover {
+	color:#ff1a87;
+}
+.menu_pink li ul li a:hover {
+	color:#ff1a87;
+}
+
+/* Purple */
+
+.menu_purple {
+	background: #6a5f71;
+	background: -moz-linear-gradient(top, #8c8094, #615867);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#8c8094), to(#615867));
+	background: -o-linear-gradient(top, #8c8094, #615867);
+}
+#wrapper_menu .menu_purple {
+	border: 1px solid #7b6f83;
+	border-top: 1px solid #ada5b3;
+}
+#wrapper_menu_full .menu_purple {
+	border-bottom: 1px solid #7b6f83;
+}
+.menu_purple li:hover div a {
+	color:#7b6f83;
+}
+.menu_purple li:hover div a:hover {
+	color:#ada5b3;
+}
+.menu_purple li ul li a:hover {
+	color:#ada5b3;
+}
+
+/* Red */
+
+.menu_red {
+	background: #830701;
+	background: -moz-linear-gradient(top, #d70b02, #830701);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#d70b02), to(#830701));
+	background: -o-linear-gradient(top, #d70b02, #830701);
+}
+#wrapper_menu .menu_red {
+	border: 1px solid #a40802;
+	border-top: 1px solid #fd190f;
+}
+#wrapper_menu_full .menu_red {
+	border-bottom: 1px solid #a40802;
+}
+.menu_red li:hover div a {
+	color:#a40802;
+}
+.menu_red li:hover div a:hover {
+	color:#fd190f;
+}
+.menu_red li ul li a:hover {
+	color:#fd190f;
+}

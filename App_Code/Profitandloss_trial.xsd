@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Profitandloss_trial" targetNamespace="http://tempuri.org/Profitandloss_trial.xsd" xmlns:mstns="http://tempuri.org/Profitandloss_trial.xsd" xmlns="http://tempuri.org/Profitandloss_trial.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Profitandloss_trial" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="Profitandloss_trial" msprop:Generator_DataSetName="Profitandloss_trial">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="profitandloss_Trial" msprop:Generator_UserTableName="profitandloss_Trial" msprop:Generator_RowDeletedName="profitandloss_TrialRowDeleted" msprop:Generator_RowChangedName="profitandloss_TrialRowChanged" msprop:Generator_RowClassName="profitandloss_TrialRow" msprop:Generator_RowChangingName="profitandloss_TrialRowChanging" msprop:Generator_RowEvArgName="profitandloss_TrialRowChangeEvent" msprop:Generator_RowEvHandlerName="profitandloss_TrialRowChangeEventHandler" msprop:Generator_TableClassName="profitandloss_TrialDataTable" msprop:Generator_TableVarName="tableprofitandloss_Trial" msprop:Generator_RowDeletingName="profitandloss_TrialRowDeleting" msprop:Generator_TablePropName="profitandloss_Trial">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CompanyName" msprop:Generator_UserColumnName="CompanyName" msprop:Generator_ColumnVarNameInTable="columnCompanyName" msprop:Generator_ColumnPropNameInRow="CompanyName" msprop:Generator_ColumnPropNameInTable="CompanyNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ReportName" msprop:Generator_UserColumnName="ReportName" msprop:Generator_ColumnVarNameInTable="columnReportName" msprop:Generator_ColumnPropNameInRow="ReportName" msprop:Generator_ColumnPropNameInTable="ReportNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Balance" msprop:Generator_UserColumnName="Balance" msprop:Generator_ColumnPropNameInRow="Balance" msprop:Generator_ColumnVarNameInTable="columnBalance" msprop:Generator_ColumnPropNameInTable="BalanceColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AccountLevel" msprop:Generator_UserColumnName="AccountLevel" msprop:Generator_ColumnPropNameInRow="AccountLevel" msprop:Generator_ColumnVarNameInTable="columnAccountLevel" msprop:Generator_ColumnPropNameInTable="AccountLevelColumn" type="xs:short" minOccurs="0" />
+              <xs:element name="MainAccount" msprop:Generator_UserColumnName="MainAccount" msprop:Generator_ColumnPropNameInRow="MainAccount" msprop:Generator_ColumnVarNameInTable="columnMainAccount" msprop:Generator_ColumnPropNameInTable="MainAccountColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Title" msprop:Generator_UserColumnName="Title" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInTable="TitleColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="From" msprop:Generator_UserColumnName="From" msprop:Generator_ColumnVarNameInTable="columnFrom" msprop:Generator_ColumnPropNameInRow="From" msprop:Generator_ColumnPropNameInTable="FromColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="To" msprop:Generator_UserColumnName="To" msprop:Generator_ColumnVarNameInTable="columnTo" msprop:Generator_ColumnPropNameInRow="To" msprop:Generator_ColumnPropNameInTable="ToColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

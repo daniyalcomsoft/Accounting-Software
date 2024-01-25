@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="TotalST_Report" targetNamespace="http://tempuri.org/TotalST_Report.xsd" xmlns:mstns="http://tempuri.org/TotalST_Report.xsd" xmlns="http://tempuri.org/TotalST_Report.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="TotalST_Report" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="TotalST_Report" msprop:Generator_DataSetName="TotalST_Report">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="TotalST_Report" msprop:Generator_UserTableName="TotalST_Report" msprop:Generator_RowDeletedName="TotalST_ReportRowDeleted" msprop:Generator_TableClassName="TotalST_ReportDataTable" msprop:Generator_RowChangedName="TotalST_ReportRowChanged" msprop:Generator_RowClassName="TotalST_ReportRow" msprop:Generator_RowChangingName="TotalST_ReportRowChanging" msprop:Generator_RowEvArgName="TotalST_ReportRowChangeEvent" msprop:Generator_RowEvHandlerName="TotalST_ReportRowChangeEventHandler" msprop:Generator_TablePropName="_TotalST_Report" msprop:Generator_TableVarName="tableTotalST_Report" msprop:Generator_RowDeletingName="TotalST_ReportRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SalesTaxInvoiceID" msprop:Generator_UserColumnName="SalesTaxInvoiceID" msprop:Generator_ColumnPropNameInRow="SalesTaxInvoiceID" msprop:Generator_ColumnVarNameInTable="columnSalesTaxInvoiceID" msprop:Generator_ColumnPropNameInTable="SalesTaxInvoiceIDColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="JobNumber" msprop:Generator_UserColumnName="JobNumber" msprop:Generator_ColumnPropNameInRow="JobNumber" msprop:Generator_ColumnVarNameInTable="columnJobNumber" msprop:Generator_ColumnPropNameInTable="JobNumberColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="DisplayName" msprop:Generator_UserColumnName="DisplayName" msprop:Generator_ColumnPropNameInRow="DisplayName" msprop:Generator_ColumnVarNameInTable="columnDisplayName" msprop:Generator_ColumnPropNameInTable="DisplayNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Date" msprop:Generator_UserColumnName="Date" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInTable="DateColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Reference" msprop:Generator_UserColumnName="Reference" msprop:Generator_ColumnPropNameInRow="Reference" msprop:Generator_ColumnVarNameInTable="columnReference" msprop:Generator_ColumnPropNameInTable="ReferenceColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Packages" msprop:Generator_UserColumnName="Packages" msprop:Generator_ColumnPropNameInRow="Packages" msprop:Generator_ColumnVarNameInTable="columnPackages" msprop:Generator_ColumnPropNameInTable="PackagesColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ServiceCharges" msprop:Generator_UserColumnName="ServiceCharges" msprop:Generator_ColumnPropNameInRow="ServiceCharges" msprop:Generator_ColumnVarNameInTable="columnServiceCharges" msprop:Generator_ColumnPropNameInTable="ServiceChargesColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OtherUE" msprop:Generator_UserColumnName="OtherUE" msprop:Generator_ColumnPropNameInRow="OtherUE" msprop:Generator_ColumnVarNameInTable="columnOtherUE" msprop:Generator_ColumnPropNameInTable="OtherUEColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AdditionalAmt" msprop:Generator_UserColumnName="AdditionalAmt" msprop:Generator_ColumnPropNameInRow="AdditionalAmt" msprop:Generator_ColumnVarNameInTable="columnAdditionalAmt" msprop:Generator_ColumnPropNameInTable="AdditionalAmtColumn" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

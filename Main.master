@@ -1,0 +1,640 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Main.master.cs" Inherits="Main" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+    <script src="Script/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="Script/jquery-ui-1.8.16.custom.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="Script/jquery.validator.js" type="text/javascript"></script>
+     <script src="Script/func.js" type="text/javascript"></script>
+    <script src="Script/Jfunc.js" type="text/javascript"></script>
+
+  
+    <script src="Script/Jquery-Integer-decimal.js" type="text/javascript"></script>
+    <script type="text/javascript" language="javascript">
+    
+        $(document).ready(function() {
+            DateTimePicker();
+        });
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+
+        function printSelection(node) {
+
+            var content = $("[id $= CrystalReportViewer1]").html();  //;node.innerHTML
+            //var content = $(".crystalstyle").html();
+            var pwin = window.open('', 'print_content', 'width=100,height=100');
+
+            pwin.document.open();
+            pwin.document.write('<html><body onload="window.print()">' + content + '</body></html>');
+            setTimeout(function() { pwin.close(); }, 1000);
+            pwin.document.close();
+        }
+    </script>
+    <link href="Script/JQuery/development-bundle/demos/demos.css" rel="stylesheet" type="text/css" />
+    <link href="Script/JQuery/development-bundle/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+    <link href="Css/megamenu.css" rel="stylesheet" type="text/css" />
+    <link rel="Stylesheet" href="Css/Style.css" type="text/css" />
+    <link href="Css/validator.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    #timeout 
+    {
+         position:absolute;
+         top:0;
+         background:red;
+         text-align:center;
+         color:#fff;
+         font-weight:bold;
+         width:100%;
+         padding:5px;
+         display:none;
+    }
+    
+    #UpdateProgressDiv img
+    {
+        vertical-align: middle;
+        margin: 1px;
+    }
+    body
+    {
+        /*background: url("images/bg.gif") repeat scroll 0 0 #FFFFFF;
+    margin: 0;
+    min-height: 100%;
+    text-rendering: optimizelegibility;*/
+    }
+    .hasDatepicker
+    {
+        z-index: 5000;
+    }
+    .progress
+    {
+        background-color: #029fe2;
+        color: white;
+        display: block;
+        font-size: 13px;
+        width: 94px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+    #bgDiv
+    {
+        display: none;
+        position: fixed;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+        background-color: White;
+        filter: alpha(opacity=40);
+        opacity: 0.4;
+        z-index: 500;
+    }
+    .FinYear
+    {
+       margin-left: 45px; 
+        }
+</style>    
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    
+    <div id="Global">
+        <form id="form1" runat="server">
+     
+        <script type="text/javascript">
+            var to;
+            $(function() {
+                to = setTimeout("TimedOut()", <%= timeout %>);
+            });
+
+            function TimedOut() {
+                $.post("RefreshSession.aspx", null,
+                    function(data) {
+
+                        if (data.toString().indexOf("success", 0) > -1) {
+                            to = setTimeout("TimedOut()", <%= timeout %>);
+                        }
+                        else { $("#timeout").slideDown('fast'); }
+                    }
+                );
+            }
+        </script>
+       <cc1:ToolkitScriptManager ID="ToolkitScriptManager1" AsyncPostBackTimeout="36000" runat="server">
+    </cc1:ToolkitScriptManager>
+   
+        <div id="Header">
+            <div id="logo">
+                <img src="images/logo.png" alt="Core Baning" title="Core Banking" />
+            </div>
+               
+            <div id="UpdateProgressDiv" class="progress" style="margin-left: 430px;">
+                 <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+                    <ProgressTemplate>
+                        <img alt="loader" src="images/ajax-loader.gif" />Loading ...
+                    </ProgressTemplate>
+                 </asp:UpdateProgress>
+            </div>
+            <div id="User_Nav">
+                <b>
+                <asp:Label ID="lblUserName" runat="server" Text=""></asp:Label></b> |
+                  <asp:LinkButton ID="lbtnMyAccount" runat="server" OnClick="lbtnMyAccount_Click">MyAccount</asp:LinkButton>
+                |
+                <b><asp:LinkButton ID="LbtnLogout" runat="server" OnClick="LbtnLogout_Click">Log Out</asp:LinkButton></b>
+                <br />
+                <b><asp:Label ID="LabelSiteName" runat="server" Text=""></asp:Label></b> 
+                <br />
+                <b><asp:Label ID="LabelFinYear" CssClass="FinYear" runat="server" Text=""></asp:Label></b>
+            </div>
+            <div style="clear: both;">
+            </div>
+         
+            <div id="wrapper_menu">
+                <ul class="menu menu_green">
+                    <li class="nodrop"><a href="Default.aspx">Home</a></li>
+                    <li id="AddnewVoucher" runat="server"><a href="#" class="drop">Financial</a>
+                        <div class="dropdown_3columns">
+                            <div class="col_1 firstcolumn">
+                                <h3>
+                                    Master Data</h3>
+                                <ul>
+                                    <li id="GLMain" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnChartOfAcc" runat="server" CausesValidation="False" OnClick="LbtnChartOfAcc_Click">Chart Of Account</asp:LinkButton>
+                                    </li>                                 
+                                  
+                                    
+                                                                  
+                                    <li id="GLOpeningBalance" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnOpeningBalance" runat="server" CausesValidation="False" OnClick="LbtnOpeningBalance_Click">Opening Balance</asp:LinkButton>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col_1">
+                                <h3>
+                                    Transactions</h3>
+                                <ul>
+                                    <li id="GLHome" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnAddNewVoucher" runat="server" OnClick="LbtnAddNewVoucher_Click" CausesValidation="False">Voucher List</asp:LinkButton>
+                                    </li>
+                                    <li id="GLGeneralVoucher" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnGeneralVoucher" runat="server" CausesValidation="False" OnClick="LbtnGeneralVoucher_Click">New General Journal</asp:LinkButton>
+                                    </li>
+                                    <li id="GLCashRecievedVoucher" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCashRecieptVoucher" runat="server" CausesValidation="False"
+                                            OnClick="LbtnCashRecieptVoucher_Click">New Cash Receipt</asp:LinkButton>
+                                    </li>
+                                    <li id="GLCashPaymentVoucher" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCashPaymentVoucher" runat="server" title="Cash Payment Voucher"
+                                            CausesValidation="False" OnClick="LbtnCashPaymentVoucher_Click">New Cash Payment</asp:LinkButton>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col_1">
+                                <h3>
+                                    Reports</h3>
+                                <ul>
+                                    <li id="GL_Report" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnGLReport" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnGLReport_Click">GL Transaction</asp:LinkButton>
+                                    </li>
+                                    <li id="GL_ChartOfAccount" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnChartOfAccReport" runat="server" CausesValidation="False"
+                                            OnClick="lbtnChartOfAccReport_Click">Chart of Account</asp:LinkButton>
+                                    </li>
+                                 <%--   <li id="GLReport_TrailBalance" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnGLReport_TrailBalance" runat="server" CausesValidation="False"
+                                            OnClick="LbtnGLReport_TrailBalance_Click">Trail Balance</asp:LinkButton>
+                                    </li>--%>
+                                    
+                                     <li id="TrialBalanceReport_new" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnTrialBalanceRpt" runat="server" CausesValidation="False" 
+                                            OnClick="lbtnTrialBalanceRpt_Click" >Subsidiary Trial Balance</asp:LinkButton>
+                                    </li>
+                                    
+                                    <li id="TrialBalanceReport_new_control" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnTrialBalanceRpt_control" runat="server" CausesValidation="False" 
+                                            OnClick="lbtnTrialBalanceRpt_control_Click" >Control Trial Balance</asp:LinkButton>
+                                    </li>
+                                  
+                                  <%--  <li id="GLReport_BalanceSheet" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnBalanceSheetRpt" runat="server" CausesValidation="False"
+                                            OnClick="lbtnBalanceSheetRpt_Click">Balance Sheet </asp:LinkButton>
+                                    </li>--%>
+                                      <li id="BalanceSheetReportSummary" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnBalanceSheetRpt_Test" runat="server" CausesValidation="False"
+                                            OnClick="lbtnBalanceSheetRpt_Test_Click">Balance Sheet</asp:LinkButton>
+                                    </li>
+                                    <li id="GL_Subsidiary" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnSubsidaryRpt" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnSubsidaryRpt_Click">Subsidiary Ledger </asp:LinkButton>
+                                    </li>
+                                     <li id="ProfitandLoss_Trial" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnProfitandLoss" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnProfitandLoss_Click">Profit & Loss  </asp:LinkButton>
+                                    </li>
+                                    <li id="ProfitandLossReportSummary" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnProfitandLossRpt" runat="server" visible="true" CausesValidation="False" 
+                                        OnClick="lbtnProfitandLossRpt_Click">Profit & Loss CCW </asp:LinkButton>
+                                    </li>
+                                   <%-- <li id="GL_SixColumns_TB" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnSicColumnRpt" runat="server" CausesValidation="False" 
+                                            OnClick="lbtnSicColumnRpt_Click" >Six-Columns Trail Balance </asp:LinkButton>
+                                    </li>--%>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li id="Sales" runat="server"><a href="#" class="drop">Sales</a><!-- Begin 2 columns Item -->
+                        <div class="dropdown_2columns">
+                            <!-- Begin 2 columns container -->
+                            <div class="col_1 firstcolumn">
+                                <h3>
+                                    Sales</h3>
+                                <ul>
+                                    <li id="CustomerForm_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCustomer" runat="server" OnClick="LbtnCustomer_Click" 
+                                        CausesValidation="False" >Customer</asp:LinkButton>
+                                    </li> 
+                                    <li id="JobForm_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnJob" runat="server"
+                                        CausesValidation="False" OnClick="lbtnJob_Click" >Job</asp:LinkButton>
+                                    </li> 
+                                    <li id="JobForm" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnJobForm" runat="server" visible="true"
+                                        CausesValidation="False">Job Form</asp:LinkButton>
+                                    </li>
+                                    <li id="JobSheetForm_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnJobSheet" runat="server" visible="true"
+                                        CausesValidation="False" OnClick="lbtnJobSheet_Click" >Job Sheet</asp:LinkButton>
+                                    </li> 
+                                    <li id="JobSheetForm" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnJobSheetForm" runat="server" visible="true"
+                                        CausesValidation="False">Job Sheet Form</asp:LinkButton>
+                                    </li>
+                                    <li id="ExpenseSheetForm_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnExpenseSheetForm_Views" runat="server"
+                                        CausesValidation="False" OnClick="lbtnExpenseSheetForm_Views_Click" >Expense Sheet Form</asp:LinkButton>
+                                    </li>
+                                    <li id="ExpenseSheetForm" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnExpenseSheetForm" runat="server" visible="true"
+                                        CausesValidation="False">Expense Sheet Form</asp:LinkButton>
+                                    </li> 
+                                    <li id="DepositSheetForm_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnDepositSheetForm_Views" runat="server" visible="true"
+                                        CausesValidation="False" OnClick="lbtnDepositSheetForm_Views_Click" >Deposit Sheet Form</asp:LinkButton>
+                                    </li>
+                                    <li id="DepositSheetForm" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnDepositSheetForm" runat="server" visible="true"
+                                        CausesValidation="False">Deposit Sheet Form</asp:LinkButton>
+                                    </li>
+                                    <li id="SalesTaxInvoice_View" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnSalesTaxInvoice_View" runat="server"
+                                        CausesValidation="False" OnClick="lbtnSalesTaxInvoice_View_Click" >Sales Tax Invoice</asp:LinkButton>
+                                    </li>
+                                    <li id="SalesTaxInvoice" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnSalesTaxInvoice" runat="server" visible="true"
+                                        CausesValidation="False" >Sales Tax Invoice</asp:LinkButton>
+                                    </li> 
+                                    <li id="CustomerForm" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCustomerForm" runat="server" visible="true" 
+                                        CausesValidation="False" >Customer Form</asp:LinkButton>
+                                    </li> 
+                                    <%-- <li id="CustomerForm" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtCustomer" visible="true" runat="server" OnClick="LbtCustomer_Click" 
+                                        CausesValidation="False" >Customer Form</asp:LinkButton>
+                                    </li> --%>
+                                    <li id="Invoice_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnSalesInvoice" runat="server" OnClick="LbtnSalesInvoice_Click" 
+                                        CausesValidation="False" >Commercial Invoice</asp:LinkButton>
+                                    </li>
+                                    <li id="Invoice_Temp" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCreateInvoice" runat="server" visible="true" 
+                                        CausesValidation="False" >Create Commercial Invoice</asp:LinkButton>
+                                    </li>
+                                    <li id="InvoiceStatusForm" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnInvoiceStatusForm" runat="server" OnClick="LbtnInvoiceStatusForm_Click" 
+                                        CausesValidation="False" >Invoice Status</asp:LinkButton>
+                                    </li>
+                                    <li id="ReceivePayment_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnReceivePayment" runat="server" visible="true" OnClick="LbtnReceivePayment_Click"
+                                         CausesValidation="False" >Receive Payments</asp:LinkButton>
+                                    </li> 
+                                    <li id="ReceivePayment" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCreateReceivePayment" runat="server" visible="true"
+                                         CausesValidation="False" >Create Receive Payments</asp:LinkButton>
+                                    </li>  
+                                     <li id="ProformaInvoice_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnProformaInvoice" visible="true" runat="server" OnClick="LbtnProformaInvoice_Click" 
+                                        CausesValidation="False" >Proforma Invoice</asp:LinkButton>
+                                    </li>
+                                    <li id="ProformaInvoice_NEW" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCreateProformaInvoice" runat="server" visible="true" 
+                                        CausesValidation="False" >Create Proforma Invoice</asp:LinkButton>
+                                    </li> 
+                                     <li id="UpdateCOGS" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnUpdateCOGS" runat="server" visible="true" OnClick="LbtnUpdateCOGS_Click" 
+                                        CausesValidation="False" >Update COGS</asp:LinkButton>
+                                    </li> 
+                                   
+                                </ul>                                
+                            </div>
+                            <div class="col_1">
+                                <h3>
+                                    Reports</h3>
+                                <ul>
+                                
+                                    <li id="ExpenseSheetReport" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnExpenseSheet" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnExpenseSheet_Click">Expense Sheet</asp:LinkButton>
+                                    </li>
+                                    <li id="DepositSheetReport" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnDepositSheet" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnDepositSheet_Click">Deposit Sheet</asp:LinkButton>
+                                    </li>
+                                    
+                                    <li id="Sales_Invoice_Report" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnSaleReport" runat="server" visible="true" CausesValidation="False" 
+                                        OnClick="lbtnSaleReport_Click">Sales Report</asp:LinkButton>
+                                    </li> 
+                                    
+                                    <li id="SalesTaxInvoice_Report" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnSalesTaxInvoice_Report" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnSalesTaxInvoice_Report_Click">Sales Tax Invoice Report</asp:LinkButton>
+                                    </li>                                    
+                                  
+                                     <li id="commercialinvoicereport" style="width: 150px;" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnCommercialInvoiceReport" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnCommercialInvoiceReport_Click">Commercial Invoice Report</asp:LinkButton>
+                                    </li>
+                                    <li id="DailyReportSheet" style="width: 150px;" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnDailyReportSheet" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnDailyReportSheet_Click">Daily Report Sheet</asp:LinkButton>
+                                    </li>
+                                    
+                                    <li id="InvoiceStatusReport" style="width: 150px;" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnInvoiceStatusReport" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnInvoiceStatusReport_Click">Invoice Status Report</asp:LinkButton>
+                                    </li>
+                                    
+                                    <li id="DailyStatementSheet" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnDailyStatementSheet" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnDailyStatementSheet_Click">Daily Statement</asp:LinkButton>
+                                    </li>
+                                    
+                                    <li id="PaymentTypesReport" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnPaymentTypesReport" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnPaymentTypesReport_Click">Payment Report</asp:LinkButton>
+                                    </li>
+                                    
+                                    <li id="TotalSalestaxReport" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnTotalSalestaxReport" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnTotalSalestaxReport_Click">Total Sales tax Report</asp:LinkButton>
+                                    </li>
+                                    <li id="CNFImportValueReport" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnCNFImportValueReport" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnCNFImportValueReport_Click">CNF Import Value Report</asp:LinkButton>
+                                    </li>
+                                    
+                                      <li id="proformainvoicereport" style="width: 150px;" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnProformaInvoiceReport" runat="server" visible="true" CausesValidation="False" 
+                                        OnClick="lbtnProformaInvoiceReport_Click">Proforma Invoice Report</asp:LinkButton>
+                                    </li>
+                                     <li id="ReceivableSummaryReport" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnReceivableSummaryReport" runat="server" visible="true" CausesValidation="False" 
+                                        OnClick="lbtnReceivableSummaryReport_Click">Receivalbe Aging Report</asp:LinkButton>
+                                    </li>
+                                 </ul>
+                            </div>
+                                                     
+                        </div>
+                        <!-- End 2 columns container -->
+                    </li>
+                      <li id="Purchase" runat="server" visible="true"><a href="#" class="drop">Purchase</a><!-- Begin 2 columns Item -->
+                        <div class="dropdown_2columns">
+                            <!-- Begin 2 columns container -->
+                            <div class="col_1 firstcolumn">
+                                <h3>
+                                    Purchase</h3>
+                                <ul>
+                                    
+                                      <li id="VendorForm_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnVendor" runat="server" OnClick="LbtnVendor_Click" CausesValidation="False" >Vendor</asp:LinkButton>
+                                    </li>
+                                    <li id="VendorForm" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCreateVendor" runat="server" visible="true" CausesValidation="False" >Create Vendor</asp:LinkButton>
+                                    </li> 
+                                     <li id="PurchaseInvoice_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnPurchaseInvoice" runat="server" OnClick="LbtnPurchaseInvoice_Click" CausesValidation="False" >Purchase Invoice</asp:LinkButton>
+                                    </li>
+                                    <li id="PurchaseInvoice_Temp" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCreatePurchaseInvoice" runat="server" visible="true" CausesValidation="False" >Create Purchase Invoice</asp:LinkButton>
+                                    </li>   
+                                     <li id="PayPayment" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCreatePayPayment" runat="server" visible="true" CausesValidation="False" >Create Pay Payments</asp:LinkButton>
+                                    </li>
+                                    <li id="PayPayment_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnPayPayment" runat="server" OnClick="LbtnPayPayment_Click" CausesValidation="False" >Pay Payments</asp:LinkButton>
+                                    </li>  
+                                   
+                                </ul>
+                                
+                            </div>
+                            <div class="col_1">
+                                <h3>
+                                    Reports</h3>
+                                <ul>
+                                    <li id="PurchaseInvoiceReport" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnPurchasereport" runat="server" CausesValidation="False" 
+                                        OnClick="lbtnPurchasereport_Click">Purchase Report</asp:LinkButton>
+                                    </li>
+                                 </ul>
+                            </div>
+                                                     
+                        </div>
+                        <!-- End 2 columns container -->
+                    </li>
+                     
+                            
+                                            
+                    
+                    <li id="Inventory" runat="server" visible ="false"><a href="#" class="drop" >Inventory</a>
+                        <div class="dropdown_3columns">
+                            <div class="col_1 firstcolumn">
+                                <h3>
+                                   Inventory</h3>
+                               <ul>
+                                    
+                                      <li id="InventoryForm_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnInventory" visible="true" runat="server" CausesValidation="False" >Inventory</asp:LinkButton>
+                                    </li> 
+                                    <li id="InventoryForm" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCreateInventory" runat="server" OnClick="LbtnCreateInventory_Click" CausesValidation="False" >Inventory</asp:LinkButton>
+                                    </li> 
+                                    <li id="InventoryAdjustment_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnAdjustmentInventory" runat="server" OnClick="LbtnAdjustmentInventory_Click" CausesValidation="False" >Inventory Adjustment</asp:LinkButton>
+                                    </li> 
+                                   
+                                     <li id="FishName" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnFishName" visible="true" runat="server" OnClick="LbtnFishName_Click" CausesValidation="False" >Fish Name</asp:LinkButton>
+                                    </li> 
+                                    
+                                     <li id="FishGrade" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnFishGrade" visible="true" runat="server" OnClick="LbtnFishGrade_Click" CausesValidation="False" >Fish Grade</asp:LinkButton>
+                                    </li> 
+                                    
+                                      <li id="FishSize" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnFishSize" visible="true" runat="server" OnClick="LbtnFishSize_Click" CausesValidation="False" >Fish Size</asp:LinkButton>
+                                    </li> 
+                                    
+                                     
+                                   
+                                </ul>
+                            </div>
+                            <div class="col_1">
+                                <h3>
+                                    Stock</h3>
+                                 <ul>
+                                    
+                                      <li id="PhysicalStockCount" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnPhysicalStockCount" runat="server" 
+                                        OnClick="lbtnPhysicalStockCount_Click" CausesValidation="False" >Physical Stock Count</asp:LinkButton>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col_1">
+                                <h3>
+                                    Reports</h3>
+                                <ul>
+                                    <li id="InventoryReportSummary" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnInventoryReportSummary" runat="server" CausesValidation="False" 
+                                      OnClick="lbtnInventoryReportSummary_Click"  >Inventory Summary Report</asp:LinkButton>
+                                    </li>
+                                    <li id="COGSReportSummary" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnCOGSReportSummary" runat="server" CausesValidation="False" 
+                                      OnClick="lbtnCOGSReportSummary_Click"  >COGS Summary Report</asp:LinkButton>
+                                    </li>
+                                    <li id="PackingListSummaryReport" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnPackingListSummaryReport" runat="server" CausesValidation="False" 
+                                      OnClick="lbtnPackingListSummaryReport_Click"  >Packing List Report</asp:LinkButton>
+                                    </li>
+                                   
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    <li id="Security" runat="server"><a href="#" class="drop">Admin Setup</a><!-- Begin 2 columns Item -->
+                        <div class="dropdown_2columns">
+                            <!-- Begin 2 columns container -->
+                            <div class="col_1 firstcolumn">
+                                <h3>
+                                    User Management</h3>
+                                <ul>
+                                    <li id="CreateUser" runat="server" visible="true">
+                                        <asp:LinkButton ID="ltbnCreateUser" CausesValidation="False" runat="server" OnClick="ltbnCreateUser_Click">Add User</asp:LinkButton>
+                                    </li>
+                                    <li id="AddEditRolePermission" runat="server" visible="true">
+                                        
+                                    </li>
+                                    <li id="SE_AdminUsers" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnSecurity" runat="server" OnClick="LbtnSecurity_Click"
+                                            CausesValidation="False">Edit / Delete User(s)</asp:LinkButton>
+                                    </li>
+                                    <li id="InvoiceDescription" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnManageInvoiceDescription" runat="server" OnClick="LbtnManageInvoiceDescription_Click"
+                                            CausesValidation="False">InvoiceDescription</asp:LinkButton>
+                                    </li>
+                                    <li id="DutiesDescription" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnManageDutiesDescription" runat="server" OnClick="LbtnManageDutiesDescription_Click"
+                                            CausesValidation="False">Duties Description</asp:LinkButton>
+                                    </li>
+                                    <li id="ShippingLine" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnManageShippingLine" runat="server" OnClick="LbtnManageShippingLine_Click"
+                                            CausesValidation="False">Shipping Line</asp:LinkButton>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                            <div class="col_1">
+                                <h3>
+                                    SuperAdmin</h3>
+                                <ul>
+                                  <li id="BarChart" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnBarchart" CausesValidation="False" visible="true" runat="server" 
+                                            onclick="LbtnBarchart_Click">DashBoard</asp:LinkButton>
+                                    </li>
+                                    <li id="SE_SuperCostCenter" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnCostCenter" visible="true" CausesValidation="False" runat="server" 
+                                            onclick="LbtnCostCenter_Click">Cost Center Setup</asp:LinkButton>
+                                    </li>
+                                    
+                                    
+                                    <li id="SalesTax" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnSalesTax" CausesValidation="False" runat="server"
+                                        onclick="lbtnSalesTax_Click">Sales Tax</asp:LinkButton>
+                                    </li>
+                                     <li id="FinancialYear" runat="server" visible="true">
+                                        <asp:LinkButton ID="lbtnFinYear" CausesValidation="False" runat="server"
+                                        onclick="lbtnFinYear_Click">Setting Financial Year</asp:LinkButton>
+                                    </li>
+                                    
+                                    <li id="SettingForm_Views" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnSettings" CausesValidation="False" runat="server"
+                                        onclick="LbtnSettings_Click">Settings</asp:LinkButton>
+                                    </li>
+                                    <li id="SettingForm" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnSettingForm" CausesValidation="False" runat="server"
+                                        visible="true">Settings Form</asp:LinkButton>
+                                    </li>
+                                    <li id="SE_SuperAdminSetup" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnNewSetup" CausesValidation="False" runat="server"
+                                        onclick="LbtnNewSetup_Click">System Setup</asp:LinkButton>
+                                    </li>
+                                    <li id="SE_SetupList" runat="server" visible="true">
+                                        <asp:LinkButton ID="LbtnEditSetup" runat="server" CausesValidation="False"
+                                        onclick="LbtnEditSetup_Click">Edit / Delete Setup</asp:LinkButton>
+                                    </li>
+                                    <li id="DBbackup" runat="server" visible="true">
+                                        <asp:LinkButton ID="lnkDBbackup" runat="server" CausesValidation="false" 
+                                        onclick="lnkDBbackup_Click">Create DB Backup</asp:LinkButton>
+                                    </li>
+                                    
+                                     
+                                    
+                                </ul>
+                            </div>                            
+                        </div>
+                        <!-- End 2 columns container -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+        </form>
+    </div>
+
+</body>
+</html>
